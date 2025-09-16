@@ -217,8 +217,8 @@ python scripts/recognition/preprocess.py
 *   **목표:** 준비된 데이터를 사용하여 탐지 모델과 인식 모델을 각각 훈련시키고, 검증 손실(Validation Loss)이 가장 낮은 최적의 모델 가중치를 저장합니다.
 *   **프로세스:** 각 `train` 스크립트를 실행합니다. 모든 학습 과정과 결과(손실, 정확도 등)는 `wandb`에 자동으로 기록되어 실시간으로 대시보드에서 확인할 수 있습니다.
 *   **결과물:**
-    *   `./saved_models/detection_dbnet/dbnet_best.pth`: 탐지 모델 훈련 진행 후 나오는 최적 모델 저장 파일이 생성됩니다.
-    *   `./saved_models/recognition/enhanced_padded/korean_recognition_best_padded.pth`: 인식 모델 훈련 진행 후 나오는 최적 모델 저장 파일이 생성됩니다.
+    *   `./saved_models/detection_dbnet/dbnet_a100_best.pth`: 탐지 모델 훈련 진행 후 나오는 최적 모델 저장 파일이 생성됩니다.
+    *   `./saved_models/recognition/enhanced_padded/robust_korean_recognition_best.pth`: 인식 모델 훈련 진행 후 나오는 최적 모델 저장 파일이 생성됩니다.
 
 
 #### 가. 탐지 모델 학습
@@ -235,7 +235,7 @@ python dbnet_a100_optimized.py
 #### 나. 인식 모델 학습
 
 ```bash
-python scripts/recognition/train_korean_handwritten_recognition_enhanced.py --train_data_dir "processed_data/recognition/train_images" --val_data_dir "processed_data/recognition/val_images" --wandb_project "Korean-Handwriting-Recognition-Enhanced"
+python scripts/recognition/final.py --train_data_dir "processed_data/recognition/train_images" --val_data_dir "processed_data/recognition/val_images" --wandb_project "Korean-Handwriting-Recognition-Enhanced"
 ```
 
 ```bash
@@ -253,7 +253,7 @@ python recognition_a100_optimized.py
 #### 모델 파이프라인 구동
 
 ```bash
-python scripts/tba/run_ocr.py --det_weights "saved_models/detection_dbnet/dbnet_best.pth" --rec_weights "saved_models/recognition/enhanced_padded/korean_recognition_best_padded.pth" --source "C:/Users/Admin/Documents/GitHub/FinSight-OCR-AlpinaDolce/data/Validation/01.원천데이터/VS_금융_2.보험_2-5.청구서/IMG_OCR_6_F_0001515.png" --char_map "configs/recognition/korean_char_map.txt"
+python scripts/tba/run_ocr.py --det_weights "saved_models/detection_dbnet/dbnet_a100_best.pth" --rec_weights "saved_models/recognition/enhanced_padded/robust_korean_recognition_best.pth" --source "C:/Users/Admin/Documents/GitHub/FinSight-OCR-AlpinaDolce/data/Validation/01.원천데이터/VS_금융_2.보험_2-5.청구서/IMG_OCR_6_F_0001515.png" --char_map "configs/recognition/korean_char_map.txt"
 ```
 
 ---
@@ -320,6 +320,30 @@ graph LR
     *   **OS:** Windows 11
     *   **Language:** Python 3.9+
     *   **Framework & Libraries:**
+
+가상환경 생성
+
+```bash
+conda create -n <가상환경이름> python=3.9
+```
+
+가상환경 생성 후 가상환경 진입
+
+```bash
+conda activate <가상환경이름>
+```
+
+가상환경 진입 후 torch 설치
+
+```bash
+pip install torch==2.1.0+cu121 torchvision==0.16.0+cu121 torchaudio==2.1.0+cu121 --index-url https://download.pytorch.org/whl/cu121
+```
+
+torch 설치 후 requirements.txt 설치
+
+```bash
+pip install -r requirements.txt
+```
 
 | Library | Version | Description |
 |---|---|---|
