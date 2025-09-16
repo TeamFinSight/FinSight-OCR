@@ -1,34 +1,32 @@
 name: finsight-ocr
 channels:
   - defaults
-  - https://repo.anaconda.com/pkgs/main
-  - https://repo.anaconda.com/pkgs/r
-  - https://repo.anaconda.com/pkgs/msys2
+  - conda-forge
 dependencies:
-  - bzip2=1.0.8=h2bbff1b_6
-  - ca-certificates=2025.7.15=haa95532_0
-  - expat=2.7.1=h8ddb27b_0
-  - libffi=3.4.4=hd77b12b_1
-  - openssl=3.0.17=h35632f6_0
-  - pip=25.2=pyhc872135_0
-  - python=3.9.23=h716150d_0
-  - setuptools=78.1.1=py39haa95532_0
-  - sqlite=3.50.2=hda9a48d_1
-  - tk=8.6.15=hf199647_0
-  - ucrt=10.0.22621.0=haa95532_0
-  - vc=14.3=h2df5915_10
-  - vc14_runtime=14.44.35208=h4927774_10
-  - vs2015_runtime=14.44.35208=ha6b5a95_10
-  - wheel=0.45.1=py39haa95532_0
-  - xz=5.6.4=h4754444_1
-  - zlib=1.2.13=h8cc25b3_1
+  - python=3.9.23
+  - pip
+  - numpy=1.26.2
+  - scipy=1.13.1
+  - pandas=2.2.2
+  - scikit-learn=1.3.2
+  - matplotlib=3.9.4
+  - pillow=10.1.0
+  - tk=8.6.15
+  - sqlite=3.50.2
+  - libffi=3.4.4
+  - bzip2=1.0.8
+  - openssl=3.0.17
+  - vc=14.3
+  - vs2015_runtime=14.44.35208
+  - ucrt=10.0.22621.0
+  - xz=5.6.4
+  - zlib=1.2.13
   - pip:
       - albucore==0.0.24
       - albumentations==2.0.8
       - alembic==1.16.5
       - annotated-types==0.7.0
       - banal==1.0.6
-      - certifi==2022.12.7
       - charset-normalizer==2.1.1
       - click==8.1.8
       - colorama==0.4.6
@@ -57,21 +55,16 @@ dependencies:
       - levenshtein==0.27.1
       - mako==1.3.10
       - markupsafe==2.1.5
-      - matplotlib==3.9.4
-      - modules==1.0.0
       - mpmath==1.3.0
       - natsort==8.4.0
       - networkx==3.2.1
       - ninja==1.13.0
       - nltk==3.9.1
-      - numpy==1.26.2
       - nvidia-ml-py==12.575.51
       - opencv-python==4.8.1.78
       - opencv-python-headless==4.11.0.86
       - optuna==4.5.0
       - packaging==25.0
-      - pandas==2.2.2
-      - pillow==10.1.0
       - platformdirs==4.4.0
       - protobuf==6.32.0
       - pyclipper==1.3.0.post6
@@ -89,8 +82,6 @@ dependencies:
       - requests==2.28.1
       - safetensors==0.6.2
       - scikit-image==0.24.0
-      - scikit-learn==1.3.2
-      - scipy==1.13.1
       - sentry-sdk==2.35.2
       - shapely==2.0.7
       - simsimd==6.5.3
@@ -109,9 +100,8 @@ dependencies:
       - tqdm==4.66.1
       - typing-extensions==4.12.2
       - typing-inspection==0.4.1
-      - tzdata==2025.2
       - urllib3==1.26.13
       - utils==1.0.2
       - wandb==0.21.3
+      - wheel==0.45.1
       - zipp==3.23.0
-prefix: C:\Users\Admin\anaconda3\envs\finsight-ocr
