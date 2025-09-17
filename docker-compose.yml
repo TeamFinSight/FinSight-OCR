@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Backend API Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: finsight-ocr-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount model weights (you need to add your trained models)
+      - ./backend/modelrun/saved_models:/app/modelrun/saved_models:ro
+      # Mount configuration files
+      - ./backend/modelrun/configs:/app/modelrun/configs:ro
+      # Mount document configuration
+      - ./backend/document:/app/document:ro
+      # Mount output directory for results
+      - ./backend/output:/app/output
+    environment:
+      - PYTHONUNBUFFERED=1
+      - WORKERS=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+
+  # Frontend Web Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: finsight-ocr-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  default:
+    name: finsight-ocr-network
+    driver: bridge
+
+volumes:
+  # Persistent volume for model weights
+  model_data:
+    driver: local
+  # Persistent volume for output files
+  output_data:
+    driver: local

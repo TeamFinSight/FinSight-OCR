@@ -1,0 +1,83 @@
+readme
+
+박스 라벨링 알고리즘
+
+같은 형식의 폼일 경우
+라벨링 된 비교군 A
+좌표값만 있는 대조군 B
+
+사각형 box의 B의 중심점 좌표와 
+가장 가까운 A를 찾아
+비교군 A의 라벨을 B에게 옮김
+
+결과 
+A 중심 [2097, 442, 'bs_register_num']
+B 중심 [2098, 444, 'bs_register_num']
+
+A 중심 [699, 533, 'bs_name']
+B 중심 [700, 532, 'bs_name']
+
+A 중심 [1096, 529, 'bs_name']
+B 중심 [1097, 532, 'bs_name']
+를 리턴함
+
+이미지 사이즈가 다를 경우:
+넓이와 높이를 넘겨 비교군 A의 비율만큼 곱한 값으로 계산함.
+
+임의의 값 N(4)만큼 X좌표를 접어 Y좌표 위주로 검색함.
+
+사업 =  bs
+영업 = co
+대표자  = ceo 
+결제 = pay
+예금 = deposit
+
+
+
+'제신고서' type=0
+[(939, 1838, 'account_num'), (2046, 1839, 'cust_name'), (1160, 2252, 'before_by_type'), (1577, 2253, 'before_by_type'), (1949, 2250, 'before_by_type'), (740, 2360, 'after_by_type'), (1152, 2361, 'after_by_type'), (1575, 2361, 'after_by_type'), (1965, 2358, 'after_by_type'), (1128, 2721, 'YY'), (1252, 2723, 'MM'), (1375, 2721, 'dd'), (684, 2822, 'cust_adress'), (949, 2820, 'cust_adress'), (1240, 2821, 'cust_adress'), (1492, 2815, 'cust_adress'), (1935, 2817, 'cust_call'), (1022, 2919, 'cust_c_regist_num'), (1933, 2975, 'cust_sign')]
+
+'신청서' type=0
+bin_box = [(759, 444, 'bs_name'), (2097, 442, 'bs_register_num'), (699, 533, 'bs_name'), (1096, 529, 'bs_name'), (2084, 532, 'co_register_num'), (725, 625, 'co_adress'), (1130, 623, 'co_adress'), (1569, 623, 'co_adress'), (1947, 620, 'co_adress'), (765, 712, 'bs_call'), (2035, 713, 'bs_fax'), (510, 801, 'ceo_kor_name'), (889, 804, 'ceo_eng_name'), (1243, 798, 'ceo_eng_name'), (1977, 802, 'ceo_birth'), (564, 891, 'ceo_res'), (871, 891, 'ceo_res'), (1186, 892, 'ceo_res'), (1459, 890, 'ceo_res'), (2038, 887, 'ceo_call'), (581, 1070, 'pay_inis'), (2052, 1065, 'pay_account'), (604, 1150, 'credit_pay_day'), (809, 1229, 'co_credit_pay_limit'), (814, 1295, 'sect_credit_pay_limit'), (980, 1396, 'sub_email'), (713, 1492, 'pay_sub_b'), (203, 3245, 'YY'), (385, 3249, 'MM'), (596, 3241, 'dd'), (1349, 3246, 'bs_name'), (1944, 3245, 'ceo_sign')]
+
+
+'자동이체_승인서'
+[(1837, 630, 'giro_account'), (851, 708, 'bs_name'), (1910, 709, 'bs_regist_name'), (503, 789, 'bs_adress'), (869, 789, 'bs_adress'), (1308, 788, 'bs_adress'), (1727, 787, 'bs_adress'), (659, 872, 'ceo_name'), (1892, 869, 'ceo_c_regist_num'), (677, 949, 'ceo_call'), (1740, 947, 'fax_num'), (602, 1033, 'manage_sect'), (1101, 1034, 'sect_manager'), (1833, 1039, 'sect_manager_email'), (547, 1231, 'bank_name'), (951, 1232, 'bank_local'), (1776, 1232, 'deposit_type'), (825, 1326, 'deposit_account'), (1703, 1327, 'deposit_admin'), (368, 2079, 'YYYY'), (673, 2075, 'MM'), (979, 2074, 'dd'), (1868, 2072, 'ceo_sign')]  
+
+
+'명의변경 신청서'
+[(310, 588, 'bank_name'), (1154, 742, 'trans_reason'), (930, 883, 'YY'), (1176, 881, 'MM'), (1320, 886, 'dd'), (1123, 1075, 'deposit_sort'), (1912, 1074, 'account_num'), (1128, 1189, 'update_day'), (1908, 1195, 'balance'), (1388, 1309, 'before_num'), (1191, 1425, 'name'), (1437, 2056, 'requester_1_num'), (1230, 2160, 'requester_1_name'), (1430, 2257, 'requester_2_num'), (1244, 2368, 'requester_2_name'), (1440, 2459, 'requester_3_num'), (1247, 2563, 'requester_3_name') , (1430, 2657, 'requester_4_num'), (1244, 2768, 'requester_4_name'), (1440, 2859, 'requester_5_num'), (1247, 2963, 'requester_5_name')]
+
+
+'기업인터넷뱅킹_가상계좌발급_목적확인서'
+[(847, 765, 'bs_name'),(1830, 764, 'bs_register_num'),  (739, 867, 'co_adress'),  (1219, 862, 'co_adress'),  (1646, 866, 'co_adress'),  (2102, 869, 'co_adress'),  (985, 953, 'dept_name'),  (1728, 953, 'position'),  (970, 1031, 'manager_name'),  (945, 1113, 'bs_call'),  (1732, 1104, 'bs_fax'),  (1044, 1173, 'bs_email'),  (869, 1433, 'bank_type'),  (1781, 1441, 'account_num'),  (913, 1562, 'expected_vacc_count'),  (992, 1696, 'purpose_use'),  (2078, 2068, 'agree_use_only'),  (2076, 2203, 'agree_misuse_action'),  (2079, 2369, 'agree_inspect'),  (2075, 2532, 'agree_close_if_unused'),  (2076, 2688, 'agree_notify_not_owner'),  (532, 2992, 'YY'),  (914, 2982, 'MM'),  (1145, 2989, 'dd'),  (1788, 2989, 'writer_name')
+]
+
+'실명확인_위임장'
+[  (441, 780, 'bank_name'),  (310, 1298, 'deposit_type'),  (645, 1299, 'account_num'),  (1169, 1300, 'new_account_date'),  (1566, 1301, 'balance'),  (816, 1726, 'proxy_name'),  (1732, 1724, 'proxy_resident_num'),  (737, 1811, 'proxy_address'),  (1193, 1808, 'proxy_address'),  (1601, 1811, 'proxy_address'),  (1976, 1811, 'proxy_address_detail'),  (852, 1892, 'proxy_relation'),  (1338, 2305, 'bank_branch'),  (1032, 2504, 'YY'),  (1207, 2507, 'MM'),  (1340, 2506, 'dd'),  (702, 2640, 'account_holder_address'),  (1067, 2644, 'account_holder_address'),  (1439, 2641, 'account_holder_address'),  (1830, 2647, 'account_holder_address_detail'),  (1106, 2713, 'account_holder_reg_num'),  (880, 2790, 'account_holder_name')]
+
+'위임장' type=0 
+[  (902, 614, 'proxy_name'),  (1480, 613, 'proxy_phone'),  (838, 780, 'proxy_birth'),  (1637, 780, 'proxy_relation'),  (815, 920, 'proxy_address'),  (1187, 921, 'proxy_address'),  (1553, 919, 'proxy_address'),  (1873, 918, 'proxy_address_detail'),  (916, 1101, 'principal_name'),  (1510, 1100, 'principal_phone'),  (869, 1252, 'principal_birth'),  (785, 1389, 'principal_address'),  (1154, 1389, 'principal_address'),  (1537, 1385, 'principal_address'),  (1867, 1388, 'principal_address_detail'),  (1477, 1826, 'YY'),  (1750, 1827, 'MM'),  (1875, 1827, 'dd'),  (1311, 2080, 'sign_date')
+]
+
+'자동이체신청서' type=0 [
+  (651, 482, 'policy_number'),  (1761, 484, 'product_name'),  (759, 675, 'account_holder'),  (1896, 675, 'account_holder_birth'),  (788, 784, 'bank_name'),  (1798, 783, 'account_number'),  (652, 887, 'account_holder_contact'),  (1871, 890, 'relation_to_applicant'),  (713, 993, 'applicant_name'),  (1825, 995, 'applicant_contact'),  (1662, 2709, 'YY'),  (1978, 2708, 'MM'),  (2193, 2714, 'dd'),  (1795, 2795, 'contractor_name'),  (1797, 2870, 'account_holder_signature')
+]
+
+'간병인 지원 서비스 신청서' type=0 [
+  (748, 706, 'insured_name'),  (1782, 705, 'resident_number'),  (699, 789, 'insured_contact'),  (639, 874, 'address_city'),  (1165, 875, 'address_district'),  (1617, 877, 'address_neighborhood'),  (2016, 876, 'address_detail'),  (657, 1097, 'hospital_name'),  (1814, 1095, 'treatment_start_date'),  (763, 1183, 'diagnosis'),  (709, 1530, 'application_date'),  (1792, 1527, 'hospital_room_number'),  (707, 1612, 'hospitalization_start'),  (1804, 1610, 'service_request_date'),  (426, 3081, 'YY'),  (793, 3082, 'MM'),  (1032, 3079, 'dd'),  (2062, 3078, 'applicant_name')
+]
+
+'도난(파손)사실 확인서' type=0 
+[  (838, 660, 'writer_name'),  (1948, 658, 'relation_to_insured'),  (710, 757, 'resident_number'),  (1817, 754, 'contact'),  (777, 853, 'address_province'),  (1291, 854, 'address_county'),  (1721, 855, 'address_road'),  (2135, 857, 'address_detail'),  (803, 1120, 'accident_location'),  (1880, 1120, 'accident_cause'),  (851, 1212, 'accident_date'),  (1487, 1216, 'accident_time'),  (230, 1570, 'item_1_name'),  (622, 1569, 'item_1_manufacturer'),  (1094, 1572, 'item_1_price'),  (1684, 1569, 'item_1_purchase_date'),  (2002, 1570, 'item_1_seller'),  (322, 1657, 'item_2_name'),  (626, 1656, 'item_2_manufacturer'),  (1096, 1659, 'item_2_price'),  (1683, 1657, 'item_2_purchase_date'),  (2072, 1657, 'item_2_seller'),
+  (1791, 3129, 'YY'),  (2008, 3130, 'MM'),(2161, 3131, 'dd'),(1859, 3223, 'signer_name')
+]
+
+'위임장' type=0 
+[ (623, 628, 'insured_name'),  (1109, 625, 'accident_year'),  (1458, 627, 'accident_month'),  (1753, 626, 'accident_day'),  (210, 1053, 'insurance_type'),  (705, 1056, 'policy_number'),  (1506, 1057, 'contractor_name'),  (2037, 1057, 'insured_person_name'),  (1714, 1422, 'written_year'),  (2014, 1421, 'written_month'),  (2219, 1421, 'written_day'),  (228, 1739, 'delegator_name'),  (1226, 1737, 'delegator_id'),  (1908, 1737, 'delegator_contact'),  (758, 2337, 'delegate_name'),  (1814, 2338, 'delegate_id'),  (652, 2425, 'delegate_contact'),  (1945, 2422, 'relation_to_insured'),  (857, 2515, 'bank_name'),  (1603, 2509, 'bank_account_number')
+]
+
+
+'보험계약대출 승계 동의서' type=0 
+[(840, 611, 'insurance_type'),   (1841, 608, 'policy_number'),(1166, 1350, 'new_contract_holder_name'), (776, 2289, 'bank_name'),   (1756, 2285, 'account_number'), (605, 2414, 'account_holder_name'),(1774, 2413, 'account_holder_id'),(641, 2541, 'account_holder_phone')  
+]

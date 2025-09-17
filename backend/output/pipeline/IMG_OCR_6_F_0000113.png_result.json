@@ -1,0 +1,194 @@
+{
+  "metadata": {
+    "source_image": "IMG_OCR_6_F_0000113.png",
+    "processed_at": "2025-09-17T10:00:23.755662",
+    "total_detections": 8,
+    "model_info": {
+      "detection_model": "DBNet (ResNet18)",
+      "recognition_model": "RobustKoreanCRNN (EfficientNet-B2 + BiLSTM + CTC)"
+    }
+  },
+  "document_info": {
+    "width": 2481,
+    "height": 3507,
+    "document_type": "unknown"
+  },
+  "fields": [
+    {
+      "id": 1,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "1674213292440",
+      "confidence": -0.34924816673334974,
+      "value_box": {
+        "x": [
+          1731,
+          1731,
+          2194,
+          2194
+        ],
+        "y": [
+          2363,
+          2250,
+          2250,
+          2363
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 2,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1627270-90983",
+      "confidence": -0.35616380284325433,
+      "value_box": {
+        "x": [
+          1752,
+          1752,
+          2181,
+          2181
+        ],
+        "y": [
+          2484,
+          2378,
+          2378,
+          2484
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 3,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "1293111032366",
+      "confidence": -0.23057532779729137,
+      "value_box": {
+        "x": [
+          1819,
+          1819,
+          2238,
+          2238
+        ],
+        "y": [
+          683,
+          580,
+          580,
+          683
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 4,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1371-8275-1066",
+      "confidence": -0.09334589243267796,
+      "value_box": {
+        "x": [
+          617,
+          1007,
+          1007,
+          617
+        ],
+        "y": [
+          2509,
+          2509,
+          2611,
+          2611
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 5,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "특재물보험",
+      "confidence": -0.3122026563696636,
+      "value_box": {
+        "x": [
+          816,
+          816,
+          1033,
+          1033
+        ],
+        "y": [
+          690,
+          580,
+          580,
+          690
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 6,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "동맹태희",
+      "confidence": -0.7506125298968982,
+      "value_box": {
+        "x": [
+          1144,
+          1144,
+          1318,
+          1318
+        ],
+        "y": [
+          1424,
+          1318,
+          1318,
+          1424
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 7,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "홍표주영",
+      "confidence": -1.0043162215588382,
+      "value_box": {
+        "x": [
+          586,
+          586,
+          757,
+          757
+        ],
+        "y": [
+          2484,
+          2385,
+          2385,
+          2484
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 8,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "복시민",
+      "confidence": -1.0078983593569621,
+      "value_box": {
+        "x": [
+          759,
+          759,
+          873,
+          873
+        ],
+        "y": [
+          2356,
+          2257,
+          2257,
+          2356
+        ],
+        "type": "polygon"
+      }
+    }
+  ]
+}
