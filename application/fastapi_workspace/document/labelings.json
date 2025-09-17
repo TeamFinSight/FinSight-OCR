@@ -1,5 +1,5 @@
 [{"type_name" :"제신고서",
-"field" :[[939, 1838, "account_num"], [2046, 1839, "cust_name"], [1160, 2252, "before_by_type"], [1577, 2253, "before_by_type"], [1949, 2250, "before_by_type"], [740, 2360, "after_by_type"], [1152, 2361, "after_by_type"], [1575, 2361, "after_by_type"], [1965, 2358, "after_by_type"], [1128, 2721, "YY"], [1252, 2723, "MM"], [1375, 2721, "dd"], [684, 2822, "cust_adress"], [949, 2820, "cust_adress"], [1240, 2821, "cust_adress"], [1492, 2815, "cust_adress"], [1935, 2817, "cust_call"], [1022, 2919, "cust_c_regist_num"], [1933, 2975, "cust_sign"]]
+"bin_box" :[[939, 1838, "account_num"], [2046, 1839, "cust_name"], [1160, 2252, "before_by_type"], [1577, 2253, "before_by_type"], [1949, 2250, "before_by_type"], [740, 2360, "after_by_type"], [1152, 2361, "after_by_type"], [1575, 2361, "after_by_type"], [1965, 2358, "after_by_type"], [1128, 2721, "YY"], [1252, 2723, "MM"], [1375, 2721, "dd"], [684, 2822, "cust_adress"], [949, 2820, "cust_adress"], [1240, 2821, "cust_adress"], [1492, 2815, "cust_adress"], [1935, 2817, "cust_call"], [1022, 2919, "cust_c_regist_num"], [1933, 2975, "cust_sign"]]
 },
 {
 "type_name" : "신청서",
