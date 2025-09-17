@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { ImageUpload } from './components/ImageUpload';
 import { OCRProcessor } from './components/OCRProcessor';
 import { GenericTable } from './components/GenericTable';
-import { TableData, OCRMetrics } from './types';
+import { TableData } from './types';
 import { ResultExporter } from './components/ResultExporter';
-import { OCRMetricsDisplay } from './components/OCRMetricsDisplay';
 import DocumentTypeSelector from './components/DocumentTypeSelector';
 import DropdownInfo from './components/DropdownInfo';
 import { Card, CardContent } from './components/ui/card';
@@ -17,7 +16,6 @@ export default function App() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [processedData, setProcessedData] = useState<TableData | null>(null);
   const [originalText, setOriginalText] = useState<string>('');
-  const [ocrMetrics, setOcrMetrics] = useState<OCRMetrics | null>(null);
   const [selectedDocumentType, setSelectedDocumentType] = useState<string | null>(null);
   const [isDummyData, setIsDummyData] = useState<boolean>(false);
   const [dummyDataInfo, setDummyDataInfo] = useState<{name: string, category: string} | null>(null);
@@ -25,14 +23,13 @@ export default function App() {
   const [currentDummyId, setCurrentDummyId] = useState<string | null>(null);
 
   const { errorState, setError, clearError } = useErrorHandler();
-  
+
   const handleImageUpload = (file: File, dataUrl: string) => {
     setImageFile(file);
     setUploadedImage(dataUrl);
     // 새 이미지가 업로드되면 이전 처리 결과 초기화
     setProcessedData(null);
     setOriginalText('');
-    setOcrMetrics(null);
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
@@ -46,7 +43,6 @@ export default function App() {
     setImageFile(null);
     setProcessedData(null);
     setOriginalText('');
-    setOcrMetrics(null);
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
@@ -60,7 +56,6 @@ export default function App() {
     // 문서 종류가 변경되면 이전 OCR 결과 초기화
     setProcessedData(null);
     setOriginalText('');
-    setOcrMetrics(null);
     clearError();
   };
 
@@ -76,7 +71,6 @@ export default function App() {
     setImageFile(null);
     setProcessedData(null);
     setOriginalText('');
-    setOcrMetrics(null);
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
@@ -89,7 +83,6 @@ export default function App() {
       setSelectedDocumentType(dummyData.documentTypeId);
       setProcessedData(dummyData.tableData);
       setOriginalText(dummyData.originalText);
-      setOcrMetrics(dummyData.metrics);
       setIsDummyData(true);
       setDummyDataInfo({
         name: dummyData.name,
@@ -100,10 +93,9 @@ export default function App() {
     }, 100);
   };
 
-  const handleOCRComplete = (tableData: TableData, text: string, metrics: OCRMetrics) => {
+  const handleOCRComplete = (tableData: TableData, text: string) => {
     setProcessedData(tableData);
     setOriginalText(text);
-    setOcrMetrics(metrics);
     setIsDummyData(false);
     setDummyDataInfo(null);
     setShowExampleOCR(false);
@@ -125,7 +117,7 @@ export default function App() {
       <div className="absolute inset-0 bg-muted/30" />
       <div className="absolute top-0 left-1/4 w-72 h-72 lg:w-96 lg:h-96 bg-primary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-72 h-72 lg:w-96 lg:h-96 bg-primary/5 rounded-full blur-3xl" />
-      
+
       <div className="container mx-auto px-4 py-6 lg:py-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-8 lg:mb-12">
@@ -142,10 +134,10 @@ export default function App() {
               <Zap className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />
             </div>
           </div>
-          
+
           {/* API 상태 표시 및 테스트 버튼 */}
           <div className="flex flex-col items-center gap-4 mb-4">
-            
+
             {/* OCR 결과 예시 버튼 */}
             <div className="relative group">
               <div className="px-4 py-2 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-300 rounded-xl cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 transition-all duration-200">
@@ -167,36 +159,16 @@ export default function App() {
                       <button
                         key={dummy.id}
                         onClick={() => handleExampleOCRShow(dummy.id)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors ${
-                          isSelected 
-                            ? 'bg-emerald-100 border border-emerald-300' 
-                            : 'hover:bg-accent'
+                        className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors ${
+                          isSelected
+                            ? 'bg-primary/10 text-primary border border-primary/20'
+                            : 'hover:bg-muted/50 text-foreground'
                         }`}
                       >
-                        <div className={`p-2 rounded-lg ${
-                          isSelected 
-                            ? 'bg-emerald-200' 
-                            : 'bg-emerald-500/10'
-                        }`}>
-                          <TestTube className="w-4 h-4 text-emerald-600" />
+                        <div className="flex flex-col gap-1">
+                          <span className="font-medium">{dummy.name}</span>
+                          <span className="text-xs text-muted-foreground">{dummy.category}</span>
                         </div>
-                        <div className="flex-1">
-                          <div className={`font-medium text-sm ${
-                            isSelected ? 'text-emerald-800' : ''
-                          }`}>
-                            {dummy.name}
-                          </div>
-                          <div className={`text-xs ${
-                            isSelected 
-                              ? 'text-emerald-600' 
-                              : 'text-muted-foreground'
-                          }`}>
-                            {dummy.category} • 정확도 {Math.round(dummy.metrics.accuracy * 100)}%
-                          </div>
-                        </div>
-                        {isSelected && (
-                          <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                        )}
                       </button>
                     );
                   })}
@@ -205,208 +177,254 @@ export default function App() {
             </div>
           </div>
 
-          <DropdownInfo />
-        </div>
+          <div className="max-w-2xl mx-auto">
+            <p className="text-base lg:text-lg text-muted-foreground mb-4">
+              한국 금융문서에 특화된 AI OCR 시스템으로 손글씨까지 정확하게 인식합니다
+            </p>
 
-        {/* 전역 에러 표시 */}
-        {errorState.hasError && (
-          <div className="max-w-4xl mx-auto mb-6">
-            <Card className="bg-destructive/10 border-destructive/20">
-              <CardContent className="p-4">
-                <div className="flex items-center gap-3">
-                  <AlertCircle className="w-5 h-5 text-destructive" />
-                  <div className="flex-1">
-                    <h4 className="text-sm font-medium text-destructive">오류</h4>
-                    <p className="text-sm text-destructive/80">{errorState.error}</p>
-                  </div>
-                  <button
-                    onClick={clearError}
-                    className="text-destructive hover:text-destructive/80 text-xl leading-none"
-                  >
-                    ×
-                  </button>
+            {/* Step-by-step guide */}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-4 mb-6">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                <h3 className="text-sm font-medium text-blue-800">사용 방법</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-3 text-xs">
+                <div className="text-center">
+                  <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-medium mx-auto mb-1">1</div>
+                  <p className="text-blue-700">이미지 업로드</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Main Content - Responsive Layout */}
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-            
-            {/* Left Panel - Image Upload & OCR Processing */}
-            <div className="space-y-6">
-              <div className="bg-card backdrop-blur-md border border-border rounded-3xl overflow-hidden">
-                <div className="bg-muted/50 px-4 lg:px-6 py-4 border-b border-border">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-accent backdrop-blur-sm rounded-xl border border-border">
-                      <FileText className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
-                    </div>
-                    <h2 className="text-lg lg:text-xl text-foreground">이미지 업로드 & 처리</h2>
-                  </div>
+                <div className="text-center">
+                  <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-medium mx-auto mb-1">2</div>
+                  <p className="text-blue-700">문서 종류 선택</p>
                 </div>
-                
-                <div className="p-4 lg:p-6 space-y-6">
-                  {/* Image Upload Section */}
-                  <div className="space-y-4">
-                    <div className="bg-accent backdrop-blur-sm px-4 py-2 rounded-xl border border-border inline-block">
-                      <h3 className="text-base lg:text-lg text-accent-foreground">문서 업로드</h3>
-                    </div>
-                    <ImageUpload
-                      onImageUpload={handleImageUpload}
-                      uploadedImage={uploadedImage}
-                      onClearImage={handleClearImage}
-                      onError={handleError}
-                    />
-                  </div>
-
-                  {/* Document Type Selection */}
-                  {(uploadedImage || isDummyData) && (
-                    <div className="animate-in slide-in-from-bottom duration-500 space-y-4">
-                      <div className="h-px bg-border" />
-                      <DocumentTypeSelector
-                        selectedDocumentType={selectedDocumentType}
-                        onDocumentTypeSelect={handleDocumentTypeSelect}
-                      />
-                    </div>
-                  )}
-
-                  {/* OCR Processing Section */}
-                  {uploadedImage && selectedDocumentType && !isDummyData && (
-                    <div className="animate-in slide-in-from-bottom duration-500 space-y-4">
-                      <div className="h-px bg-border" />
-                      <div className="bg-accent backdrop-blur-sm px-4 py-2 rounded-xl border border-border inline-block">
-                        <h3 className="text-base lg:text-lg text-accent-foreground">OCR 처리</h3>
-                      </div>
-                      <OCRProcessor
-                        imageFile={imageFile}
-                        documentType={selectedDocumentType}
-                        onProcessComplete={handleOCRComplete}
-                        onError={handleError}
-                      />
-                    </div>
-                  )}
-
-                  {/* Example OCR Info Section */}
-                  {showExampleOCR && isDummyData && selectedDocumentType && dummyDataInfo && currentDummyId && (
-                    <div className="animate-in slide-in-from-bottom duration-500 space-y-4">
-                      <div className="h-px bg-border" />
-                      <div className="bg-gradient-to-r from-emerald-50 to-blue-50 backdrop-blur-sm border border-emerald-200 rounded-xl p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-emerald-100 rounded-lg">
-                              <TestTube className="w-4 h-4 text-emerald-600" />
-                            </div>
-                            <div>
-                              <h3 className="text-sm font-medium text-emerald-800">OCR 결과 예시</h3>
-                              <p className="text-xs text-emerald-600">{dummyDataInfo.name} • {dummyDataInfo.category}</p>
-                            </div>
-                          </div>
-                          <div className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
-                            샘플 ID: {currentDummyId}
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <p className="text-xs text-emerald-700">
-                            실제 한국 금융문서에서 추출된 OCR 결과 예시를 표시합니다.
-                          </p>
-                          <p className="text-xs text-emerald-600">
-                            💡 다른 예시를 보려면 위의 "OCR 결과 예시 보기" 메뉴에서 다른 문서를 선택하세요.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                <div className="text-center">
+                  <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-medium mx-auto mb-1">3</div>
+                  <p className="text-blue-700">OCR 처리 시작</p>
                 </div>
               </div>
             </div>
 
-            {/* Right Panel - OCR Results */}
-            <div className="space-y-6">
-              <div className="bg-card backdrop-blur-md border border-border rounded-3xl overflow-hidden">
-                <div className="bg-muted/50 px-4 lg:px-6 py-4 border-b border-border">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-accent backdrop-blur-sm rounded-xl border border-border">
-                      <Zap className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
-                    </div>
-                    <h2 className="text-lg lg:text-xl text-foreground">OCR 결과</h2>
-                  </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
+              <div className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <span className="text-muted-foreground">한글 특화</span>
+              </div>
+              <div className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <span className="text-muted-foreground">손글씨 인식</span>
+              </div>
+              <div className="flex items-center gap-2 bg-muted/50 px-3 py-1.5 rounded-full">
+                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                <span className="text-muted-foreground">표 자동 추출</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Error Display */}
+        {errorState.hasError && (
+          <div className="mb-6 max-w-2xl mx-auto">
+            <div className="bg-destructive/10 backdrop-blur-sm rounded-xl p-4 border border-destructive/20 animate-in slide-in-from-top duration-300">
+              <div className="flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-destructive font-medium">오류 발생</p>
+                  <p className="text-destructive/80 text-sm mt-1">{errorState.error}</p>
                 </div>
-                
-                <div className="p-4 lg:p-6">
-                  {!processedData ? (
-                    <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
-                      <div className="text-center space-y-4">
-                        <div className="bg-muted backdrop-blur-sm w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center mx-auto border border-border">
-                          <FileText className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />
-                        </div>
-                        <div className="bg-card backdrop-blur-sm px-4 lg:px-6 py-3 rounded-2xl border border-border inline-block">
-                          <p className="text-muted-foreground text-base lg:text-lg">
-                            FinSight가 문서를 분석한 후 결과가 여기에 표시됩니다
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-4 animate-in slide-in-from-right duration-500">
-                      {/* Table Data Section */}
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          <h3 className="text-sm text-foreground">구조화된 데이터</h3>
-                        </div>
-                        <div className="overflow-x-auto">
-                          <GenericTable
-                            data={processedData}
-                            title="한국 금융 문서 데이터"
-                            subtitle="자동으로 추출된 개인정보 및 계좌정보"
-                            onDataChange={handleDataChange}
-                          />
-                        </div>
-                      </div>
+                <button
+                  onClick={clearError}
+                  className="text-destructive/60 hover:text-destructive transition-colors text-sm"
+                >
+                  닫기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
-                      {/* OCR Metrics Section */}
-                      {ocrMetrics && (
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                            <h3 className="text-sm text-foreground">OCR 정확도</h3>
-                          </div>
-                          <OCRMetricsDisplay metrics={ocrMetrics} />
-                        </div>
-                      )}
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Left Panel - Upload and Process */}
+          <div className="space-y-6">
+            <div className="bg-card backdrop-blur-md border border-border rounded-3xl overflow-hidden">
+              <div className="bg-muted/50 px-4 lg:px-6 py-4 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-accent backdrop-blur-sm rounded-xl border border-border">
+                    <FileText className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
+                  </div>
+                  <h2 className="text-lg lg:text-xl text-foreground">문서 업로드</h2>
+                </div>
+              </div>
 
-                      {/* Original Text Section */}
-                      {originalText && (
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                            <h3 className="text-sm text-foreground">추출된 텍스트</h3>
-                          </div>
-                          <div className="bg-muted/50 backdrop-blur-sm rounded-xl border border-border p-3 max-h-40 overflow-y-auto">
-                            <pre className="text-muted-foreground text-xs leading-relaxed whitespace-pre-wrap font-mono">{originalText}</pre>
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Export Section */}
-                      <div className="space-y-3">
-                        <div className="h-px bg-border" />
-                        <div className="flex items-center gap-2">
-                          <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          <h3 className="text-sm text-foreground">다운로드</h3>
-                        </div>
-                        <ResultExporter
-                          data={processedData}
-                          tableType="korean_financial"
-                          title="FinSight 한국 금융문서 추출 데이터"
-                          originalText={originalText}
-                        />
-                      </div>
+              <div className="p-4 lg:p-6 space-y-6">
+                {/* Step 1: Image Upload */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">1</div>
+                    <h3 className="text-sm text-foreground font-medium">이미지 업로드</h3>
+                  </div>
+                  <ImageUpload
+                    onImageUpload={handleImageUpload}
+                    onClearImage={handleClearImage}
+                    uploadedImage={uploadedImage}
+                  />
+                  {!uploadedImage && (
+                    <div className="bg-muted/30 border border-dashed border-muted-foreground/30 rounded-lg p-3">
+                      <p className="text-xs text-muted-foreground text-center">
+                        📁 먼저 분석할 문서 이미지를 업로드해주세요
+                      </p>
                     </div>
                   )}
                 </div>
+
+                {/* Step 2: Document Type Selection - Only show after image upload */}
+                {uploadedImage && (
+                  <div className="space-y-3 animate-in slide-in-from-bottom duration-300">
+                    <div className="h-px bg-border" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">2</div>
+                      <h3 className="text-sm text-foreground font-medium">문서 종류 선택</h3>
+                    </div>
+                    <DocumentTypeSelector
+                      selectedDocumentType={selectedDocumentType}
+                      onDocumentTypeSelect={handleDocumentTypeSelect}
+                    />
+                    <DropdownInfo />
+                    {!selectedDocumentType && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                        <p className="text-xs text-blue-700 text-center">
+                          📋 업로드하신 문서의 종류를 선택해주세요
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Step 3: OCR Processing - Only show after document type selection */}
+                {uploadedImage && selectedDocumentType && (
+                  <div className="space-y-3 animate-in slide-in-from-bottom duration-300">
+                    <div className="h-px bg-border" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-medium">3</div>
+                      <h3 className="text-sm text-foreground font-medium">OCR 처리</h3>
+                    </div>
+                    <OCRProcessor
+                      imageFile={imageFile}
+                      documentType={selectedDocumentType}
+                      onProcessComplete={handleOCRComplete}
+                      onError={handleError}
+                    />
+                  </div>
+                )}
+
+                {/* Example OCR Info Section */}
+                {showExampleOCR && isDummyData && selectedDocumentType && dummyDataInfo && currentDummyId && (
+                  <div className="animate-in slide-in-from-bottom duration-500 space-y-4">
+                    <div className="h-px bg-border" />
+                    <div className="bg-gradient-to-r from-emerald-50 to-blue-50 backdrop-blur-sm border border-emerald-200 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-emerald-100 rounded-lg">
+                            <TestTube className="w-4 h-4 text-emerald-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-sm font-medium text-emerald-800">OCR 결과 예시</h3>
+                            <p className="text-xs text-emerald-600">{dummyDataInfo.name} • {dummyDataInfo.category}</p>
+                          </div>
+                        </div>
+                        <div className="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full">
+                          샘플 ID: {currentDummyId}
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-xs text-emerald-700">
+                          실제 한국 금융문서에서 추출된 OCR 결과 예시를 표시합니다.
+                        </p>
+                        <p className="text-xs text-emerald-600">
+                          💡 다른 예시를 보려면 위의 "OCR 결과 예시 보기" 메뉴에서 다른 문서를 선택하세요.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Panel - OCR Results */}
+          <div className="space-y-6">
+            <div className="bg-card backdrop-blur-md border border-border rounded-3xl overflow-hidden">
+              <div className="bg-muted/50 px-4 lg:px-6 py-4 border-b border-border">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-accent backdrop-blur-sm rounded-xl border border-border">
+                    <Zap className="w-5 h-5 lg:w-6 lg:h-6 text-primary" />
+                  </div>
+                  <h2 className="text-lg lg:text-xl text-foreground">OCR 결과</h2>
+                </div>
+              </div>
+
+              <div className="p-4 lg:p-6">
+                {!processedData ? (
+                  <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
+                    <div className="text-center space-y-4">
+                      <div className="bg-muted backdrop-blur-sm w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center mx-auto border border-border">
+                        <FileText className="w-8 h-8 lg:w-10 lg:h-10 text-primary" />
+                      </div>
+                      <div className="bg-card backdrop-blur-sm px-4 lg:px-6 py-3 rounded-2xl border border-border inline-block">
+                        <p className="text-muted-foreground text-base lg:text-lg">
+                          FinSight가 문서를 분석한 후 결과가 여기에 표시됩니다
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-4 animate-in slide-in-from-right duration-500">
+                    {/* Table Data Section */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <h3 className="text-sm text-foreground">구조화된 데이터</h3>
+                      </div>
+                      <div className="overflow-x-auto">
+                        <GenericTable
+                          data={processedData}
+                          onDataChange={handleDataChange}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Original Text Section */}
+                    {originalText && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <h3 className="text-sm text-foreground">추출된 텍스트</h3>
+                        </div>
+                        <div className="bg-muted/50 backdrop-blur-sm rounded-xl border border-border p-3 max-h-40 overflow-y-auto">
+                          <pre className="text-sm text-foreground whitespace-pre-wrap font-mono">
+                            {originalText}
+                          </pre>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Export Section */}
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary rounded-full"></div>
+                        <h3 className="text-sm text-foreground">내보내기</h3>
+                      </div>
+                      <ResultExporter
+                        data={processedData}
+                        tableType={selectedDocumentType || 'unknown'}
+                        title={selectedDocumentType || 'OCR 결과'}
+                        originalText={originalText}
+                        documentType={selectedDocumentType}
+                        sourceImageName={imageFile?.name || 'uploaded-image'}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

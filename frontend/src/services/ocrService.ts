@@ -1,9 +1,10 @@
-import { 
-  OCRRequest, 
-  OCRResponse, 
-  APIResponse, 
-  ProcessingStatus, 
-  UploadProgress 
+import {
+  OCRRequest,
+  OCRResponse,
+  APIResponse,
+  ProcessingStatus,
+  UploadProgress,
+  TableData,
 } from '../types';
 import { apiClient } from './api';
 import { endpoints } from '../config/api';
@@ -23,15 +24,19 @@ export class OCRService {
         message: '이미지를 업로드하는 중...',
       });
 
-      // 파일 업로드 및 OCR 처리 요청
-      const uploadResponse = await apiClient.uploadFile<{
-        task_id: string;
-        status: string;
-      }>(
+      // 파일 업로드 및 OCR 처리 요청 (백엔드 요구: filename, doc_type)
+      const uploadResponse = await apiClient.uploadFile<any>(
         endpoints.ocr.process,
         request.image,
         {
-          document_type: request.document_type,
+          // FastAPI main.py의 /insert는 filename: UploadFile, doc_type: Form을 기대
+          // uploadFile은 FormData에 문자열을 넣으므로 filename은 파일 자체로 대체되고,
+          // 추가 데이터에는 doc_type만 실질적으로 사용됨
+          // filename 필드는 FastAPI에서 UploadFile로 수신하므로 파일 파트 이름을 'filename'으로 맞춰야 함
+          // 아래에서 FormData 키를 오버라이드하도록 uploadFile을 확장 호출
+          __customFileFieldName: 'filename',
+          doc_type: request.document_type,
+          // 유지: 옵션은 현재 백엔드에서 사용하지 않지만 호환 목적으로 전송
           options: request.options || {},
         },
         onProgress
@@ -41,20 +46,8 @@ export class OCRService {
         throw new Error(uploadResponse.error || '업로드 실패');
       }
 
-      const { task_id } = uploadResponse.data;
-
-      // 상태 업데이트: 처리 중
-      onStatusChange?.({
-        status: 'processing',
-        message: 'OCR 처리 중...',
-      });
-
-      // 처리 상태 폴링
-      const result = await this.pollProcessingStatus(task_id, onStatusChange);
-
-      if (!result.success) {
-        throw new Error(result.error || 'OCR 처리 실패');
-      }
+      // 백엔드는 즉시 JSON 결과를 반환함. 이를 프론트의 OCRResponse 스키마로 매핑
+      const adapted = this.adaptBackendResultToFrontend(uploadResponse.data);
 
       // 상태 업데이트: 완료
       onStatusChange?.({
@@ -62,7 +55,7 @@ export class OCRService {
         message: 'OCR 처리가 완료되었습니다.',
       });
 
-      return result;
+      return { success: true, data: adapted };
 
     } catch (error) {
       // 상태 업데이트: 오류
@@ -78,63 +71,50 @@ export class OCRService {
     }
   }
 
-  // 처리 상태 폴링
-  private async pollProcessingStatus(
-    taskId: string,
-    onStatusChange?: (status: ProcessingStatus) => void
-  ): Promise<APIResponse<OCRResponse>> {
-    const maxAttempts = 60; // 최대 5분 (5초 간격)
-    let attempts = 0;
-
-    while (attempts < maxAttempts) {
-      try {
-        const statusResponse = await apiClient.get<{
-          status: string;
-          progress?: number;
-          result?: OCRResponse;
-          error?: string;
-        }>(`${endpoints.ocr.status}/${taskId}`);
-
-        if (!statusResponse.success || !statusResponse.data) {
-          throw new Error('상태 확인 실패');
-        }
-
-        const { status, progress, result, error } = statusResponse.data;
-
-        if (status === 'completed' && result) {
-          return {
-            success: true,
-            data: result,
-          };
-        }
-
-        if (status === 'failed') {
-          throw new Error(error || 'OCR 처리 실패');
-        }
-
-        // 진행률 업데이트
-        if (progress !== undefined) {
-          onStatusChange?.({
-            status: 'processing',
-            message: `OCR 처리 중... (${Math.round(progress)}%)`,
-            progress: {
-              loaded: progress,
-              total: 100,
-              percentage: progress,
-            },
-          });
-        }
-
-        // 5초 대기 후 재시도
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        attempts++;
-
-      } catch (error) {
-        throw new Error(error instanceof Error ? error.message : '상태 확인 오류');
-      }
+  // 백엔드 JSON -> 프론트 OCRResponse 어댑터
+  private adaptBackendResultToFrontend(backendJson: any): OCRResponse {
+    // 백엔드에서 오류 응답이 온 경우 처리
+    if (backendJson?.status === 'error') {
+      throw new Error(backendJson.message || 'OCR 처리 중 오류가 발생했습니다.');
     }
 
-    throw new Error('처리 시간 초과');
+    // backend 구조 예시 (run_ocr.py):
+    // {
+    //   metadata: {...},
+    //   document_info: { width, height, document_type },
+    //   fields: [{ id, labels, rotation, value_text, confidence, value_box: { x:[], y:[], type:'polygon' } }]
+    // }
+
+    const extracted_text = Array.isArray(backendJson?.fields)
+      ? backendJson.fields.map((f: any) => f?.value_text).filter(Boolean).join('\n')
+      : '';
+
+    const headers = ['id', 'label', 'text', 'confidence', 'rotation', 'box_x', 'box_y'];
+    const rows: string[][] = Array.isArray(backendJson?.fields)
+      ? backendJson.fields.map((f: any) => [
+          String(f?.id ?? ''),
+          String(f?.labels ?? ''),
+          String(f?.value_text ?? ''),
+          String(typeof f?.confidence === 'number' ? f.confidence.toFixed(4) : ''),
+          String(typeof f?.rotation === 'number' ? f.rotation.toFixed(2) : ''),
+          Array.isArray(f?.value_box?.x) ? JSON.stringify(f.value_box.x) : '',
+          Array.isArray(f?.value_box?.y) ? JSON.stringify(f.value_box.y) : '',
+        ])
+      : [];
+
+    const table_data: TableData = { headers, rows };
+
+    const processing_time = 0;
+    const document_type = backendJson?.document_info?.document_type ?? 'unknown';
+    const confidence_score = 0;
+
+    return {
+      extracted_text,
+      table_data,
+      processing_time,
+      document_type,
+      confidence_score,
+    };
   }
 
 

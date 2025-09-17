@@ -1,16 +1,17 @@
 'use client';
 
+import { useEffect } from 'react';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
 import { Loader2, FileText, CheckCircle, AlertCircle, Upload } from 'lucide-react';
-import { TableData, OCRMetrics } from '../types';
+import { TableData } from '../types';
 import { useOCR } from '../hooks/useOCR';
 import { isValidFileType, isValidFileSize } from '../config/api';
 
 interface OCRProcessorProps {
   imageFile: File | null;
   documentType: string;
-  onProcessComplete: (extractedData: TableData, originalText: string, metrics: OCRMetrics) => void;
+  onProcessComplete: (extractedData: TableData, originalText: string) => void;
   onError?: (error: string) => void;
 }
 
@@ -31,6 +32,13 @@ export function OCRProcessor({
     processOCR,
     reset
   } = useOCR();
+
+  // OCR 처리 완료 시 결과를 부모 컴포넌트에 전달
+  useEffect(() => {
+    if (status.status === 'completed' && tableData) {
+      onProcessComplete(tableData, extractedText);
+    }
+  }, [status.status, tableData, extractedText, onProcessComplete]);
 
   const handleProcessOCR = async () => {
     if (!imageFile) return;
@@ -58,11 +66,6 @@ export function OCRProcessor({
           extract_text: true,
         },
       });
-
-      // 처리 완료 시 부모 컴포넌트에 결과 전달
-      if (tableData && metrics) {
-        onProcessComplete(tableData, extractedText, metrics);
-      }
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : '알 수 없는 오류';

@@ -1,4 +1,4 @@
-import { TableData, OCRMetrics } from '../types';
+import { TableData } from '../types';
 
 export interface DummyOCRResult {
   id: string;
@@ -8,7 +8,6 @@ export interface DummyOCRResult {
   imageFile: string;
   tableData: TableData;
   originalText: string;
-  metrics: OCRMetrics;
 }
 
 export const dummyOCRResults: DummyOCRResult[] = [
@@ -56,14 +55,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 작성일자: 2024년 9월 16일
 신청자 서명: 김민수 (인)`,
-    metrics: {
-      accuracy: 0.98,
-      precision: 0.97,
-      recall: 0.99,
-      f1Score: 0.98,
-      processingTime: 1.4,
-      confidence: 0.96
-    }
   },
   {
     id: 'identity-delegation-009',
@@ -103,14 +94,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 위임자: 박영희 (서명)
 수임자: 김철수 (서명)`,
-    metrics: {
-      accuracy: 0.96,
-      precision: 0.94,
-      recall: 0.97,
-      f1Score: 0.95,
-      processingTime: 1.9,
-      confidence: 0.93
-    }
   },
   {
     id: 'auto-transfer-014',
@@ -155,14 +138,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 신청인 서명: 이지은 (인)
 
 ※ 이체개시일: 2024년 10월 25일부터`,
-    metrics: {
-      accuracy: 0.97,
-      precision: 0.95,
-      recall: 0.98,
-      f1Score: 0.96,
-      processingTime: 1.6,
-      confidence: 0.94
-    }
   },
   {
     id: 'account-opening-016',
@@ -209,14 +184,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 담당자: 김상우 (인)
 접수번호: KB-2024-0916-001`,
-    metrics: {
-      accuracy: 0.99,
-      precision: 0.98,
-      recall: 0.99,
-      f1Score: 0.98,
-      processingTime: 1.3,
-      confidence: 0.97
-    }
   },
   {
     id: 'loan-contract-020',
@@ -266,14 +233,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 차주: 안태영 (서명)
 은행: 우리은행 송도지점 (인)`,
-    metrics: {
-      accuracy: 0.96,
-      precision: 0.94,
-      recall: 0.98,
-      f1Score: 0.96,
-      processingTime: 2.1,
-      confidence: 0.94
-    }
   },
 
   // 보험 문서들
@@ -327,14 +286,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 삼성생명보험주식회사
 지점장: 김보험 (인)`,
-    metrics: {
-      accuracy: 0.98,
-      precision: 0.96,
-      recall: 0.99,
-      f1Score: 0.97,
-      processingTime: 1.8,
-      confidence: 0.95
-    }
   },
   {
     id: 'insurance-claim-105',
@@ -390,14 +341,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 
 청구인: 김영수 (서명)
 청구일: 2024.09.16`,
-    metrics: {
-      accuracy: 0.95,
-      precision: 0.93,
-      recall: 0.97,
-      f1Score: 0.95,
-      processingTime: 2.2,
-      confidence: 0.92
-    }
   },
 
   // 증권/투자 문서들
@@ -453,14 +396,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 신고인: 박투자 (서명)
 
 금융감독원 증권선물위원회 신고 필`,
-    metrics: {
-      accuracy: 0.97,
-      precision: 0.95,
-      recall: 0.98,
-      f1Score: 0.96,
-      processingTime: 1.9,
-      confidence: 0.94
-    }
   },
   {
     id: 'customer-verification-113',
@@ -517,14 +452,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 고객서명: 이투자 (인)
 
 미래에셋증권 수원지점`,
-    metrics: {
-      accuracy: 0.98,
-      precision: 0.96,
-      recall: 0.99,
-      f1Score: 0.97,
-      processingTime: 1.7,
-      confidence: 0.95
-    }
   },
 
   // 법무/합의 문서
@@ -579,14 +506,6 @@ export const dummyOCRResults: DummyOCRResult[] = [
 을: 이채무 (서명)
 
 증인: 박증인 (서명)`,
-    metrics: {
-      accuracy: 0.96,
-      precision: 0.94,
-      recall: 0.97,
-      f1Score: 0.95,
-      processingTime: 2.0,
-      confidence: 0.93
-    }
   }
 ];
 

@@ -497,6 +497,16 @@ async def request_Ocr(file, doc_type):
     det_weights = default_path+"saved_models/dbnet_a100_best.pth"
     rec_weights = default_path+"saved_models/robust_korean_recognition_best.pth"
     char_map = default_path+"configs/recognition/korean_char_map.txt"
+    
+    # 모델 파일 존재 여부 확인
+    import os
+    if not os.path.exists(det_weights):
+        raise FileNotFoundError(f"탐지 모델 파일을 찾을 수 없습니다: {det_weights}")
+    if not os.path.exists(rec_weights):
+        raise FileNotFoundError(f"인식 모델 파일을 찾을 수 없습니다: {rec_weights}")
+    if not os.path.exists(char_map):
+        raise FileNotFoundError(f"문자 맵 파일을 찾을 수 없습니다: {char_map}")
+    
     ocr_pipeline = OCR_Pipeline(det_weights, rec_weights, char_map)
     #===================
 

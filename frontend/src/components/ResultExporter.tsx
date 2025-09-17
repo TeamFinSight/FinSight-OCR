@@ -9,18 +9,63 @@ interface ResultExporterProps {
   tableType: string | null;
   title: string;
   originalText?: string;
+  // 백엔드 JSON 스키마 생성을 위한 추가 정보
+  documentType?: string | null;
+  sourceImageName?: string | null;
 }
 
-export function ResultExporter({ data, tableType, title, originalText }: ResultExporterProps) {
+export function ResultExporter({ data, tableType, title, originalText, documentType, sourceImageName }: ResultExporterProps) {
   const exportToJSON = () => {
     if (!data) return;
 
-    const exportData = {
-      title,
-      tableType,
-      timestamp: new Date().toISOString(),
-      data
-    };
+    // 이미 백엔드 스키마(metadata, document_info, fields)를 따르는 경우 그대로 저장
+    const isBackendSchema = data && typeof data === 'object' && ('metadata' in data) && ('document_info' in data) && ('fields' in data);
+
+    let exportData: any;
+    if (isBackendSchema) {
+      exportData = data;
+    } else {
+      // TableData 등 프론트 구조를 백엔드 스키마로 변환
+      const headers: string[] = Array.isArray(data?.headers) ? data.headers : [];
+      const rows: string[][] = Array.isArray(data?.rows) ? data.rows : [];
+
+      const fields = rows.map((row: string[], idx: number) => {
+        // 가장 흔한 2열(항목, 내용) 테이블을 가정하되, 유연하게 처리
+        const label = headers.length >= 1 ? headers[0] : 'label';
+        const rowLabel = row[0] ?? '';
+        const rowText = row[1] ?? row.join(' | ');
+        return {
+          id: idx + 1,
+          labels: rowLabel || label,
+          rotation: 0,
+          value_text: rowText || '',
+          confidence: 0,
+          value_box: {
+            x: [],
+            y: [],
+            type: 'table'
+          }
+        };
+      });
+
+      exportData = {
+        metadata: {
+          source_image: sourceImageName || '',
+          processed_at: new Date().toISOString(),
+          total_detections: fields.length,
+          model_info: {
+            detection_model: '',
+            recognition_model: ''
+          }
+        },
+        document_info: {
+          width: 0,
+          height: 0,
+          document_type: documentType || tableType || 'unknown'
+        },
+        fields
+      };
+    }
 
     const blob = new Blob([JSON.stringify(exportData, null, 2)], { 
       type: 'application/json' 
@@ -128,58 +173,55 @@ export function ResultExporter({ data, tableType, title, originalText }: ResultE
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 gap-4">
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-3">
         {originalText && (
-          <Button 
-            onClick={exportToText} 
-            variant="outline" 
-            className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 h-12"
+          <Button
+            onClick={exportToText}
+            variant="outline"
+            className="flex items-center gap-2 bg-muted/50 border-border hover:bg-muted/70 transition-all duration-200 h-10 text-sm"
           >
             <FileText className="w-4 h-4" />
-            텍스트 파일 다운로드
+            텍스트 파일 (.txt)
           </Button>
         )}
-        <Button 
-          onClick={exportToJSON} 
-          variant="outline" 
-          className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 h-12"
+        <Button
+          onClick={exportToJSON}
+          variant="outline"
+          className="flex items-center gap-2 bg-muted/50 border-border hover:bg-muted/70 transition-all duration-200 h-10 text-sm"
         >
           <Download className="w-4 h-4" />
-          JSON 형식 다운로드
+          JSON 형식 (.json)
         </Button>
-        <Button 
-          onClick={exportToCSV} 
-          variant="outline" 
-          className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20 transition-all duration-300 h-12"
+        <Button
+          onClick={exportToCSV}
+          variant="outline"
+          className="flex items-center gap-2 bg-muted/50 border-border hover:bg-muted/70 transition-all duration-200 h-10 text-sm"
         >
           <Table className="w-4 h-4" />
-          CSV 형식 다운로드
+          엑셀 형식 (.csv)
         </Button>
       </div>
-      
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/20 shadow-inner">
-        <div className="bg-white/10 backdrop-blur-sm px-3 py-1 rounded-lg border border-white/20 inline-block mb-3">
-          <h4 className="bg-gradient-to-r from-slate-700 to-slate-500 bg-clip-text text-transparent">데이터 정보</h4>
+
+      <div className="bg-muted/30 backdrop-blur-sm rounded-lg p-3 border border-border">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-2 h-2 bg-primary rounded-full"></div>
+          <h4 className="text-xs font-medium text-foreground">데이터 정보</h4>
         </div>
-        <div className="space-y-2 text-slate-600 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
-            <p>표 유형: {title}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"></div>
-            <p>데이터 행: {getDataCount()}개</p>
+        <div className="space-y-1 text-muted-foreground text-xs">
+          <div className="flex items-center justify-between">
+            <span>데이터 행:</span>
+            <span className="font-medium">{getDataCount()}개</span>
           </div>
           {getColumnCount() > 0 && (
-            <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full"></div>
-              <p>컬럼 수: {getColumnCount()}개</p>
+            <div className="flex items-center justify-between">
+              <span>컬럼 수:</span>
+              <span className="font-medium">{getColumnCount()}개</span>
             </div>
           )}
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
-            <p>처리 시간: {new Date().toLocaleString()}</p>
+          <div className="flex items-center justify-between">
+            <span>문서 종류:</span>
+            <span className="font-medium">{title}</span>
           </div>
         </div>
       </div>

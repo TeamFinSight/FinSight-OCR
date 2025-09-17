@@ -36,11 +36,18 @@ class BoxLabel():
         print(data["document_info"]["document_type"])
         doc = data["document_info"]["document_type"]
         # self.bin_box = bin
-        doctype = list(filter(lambda b: b["type_name"] == doc, self.labels))[0]
+        doctype_list = list(filter(lambda b: b["type_name"] == doc, self.labels))
+
+        if not doctype_list:
+            print(f"문서 타입 '{doc}'을 찾을 수 없습니다. 기본 라벨링을 사용합니다.")
+            # 기본 라벨링 사용 또는 에러 반환
+            return data
+
+        doctype = doctype_list[0]
         # print(doctype)
         self.bin_box = doctype["bin_box"]
         data = self.formlabeling(data)
-        
+
         self.data = data
 
         return self.data

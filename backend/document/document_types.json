@@ -1,0 +1,104 @@
+{
+  "categories": [
+    {
+      "id": "banking",
+      "name": "은행/금융",
+      "icon": "Building",
+      "color": "from-blue-500 to-indigo-500",
+      "documents": [
+        {
+          "id": "basic_form",
+          "name": "기재사항 양식",
+          "category": "은행/금융",
+          "icon": "FileText",
+          "description": "기본 신상정보 및 연락처 기재 양식"
+        },
+        {
+          "id": "실명확인_위임장",
+          "name": "실명확인위임장",
+          "category": "은행/금융",
+          "icon": "UserCheck",
+          "description": "실명확인 업무 위임 관련 서류"
+        },
+        {
+          "id": "자동이체신청서",
+          "name": "자동이체신청서",
+          "category": "은행/금융",
+          "icon": "CreditCard",
+          "description": "계좌 자동이체 신청 양식"
+        },
+        {
+          "id": "신청서",
+          "name": "계좌개설신청서",
+          "category": "은행/금융",
+          "icon": "Banknote",
+          "description": "은행 계좌 개설 신청 양식"
+        },
+        {
+          "id": "자동이체_승인서",
+          "name": "자동이체승인서",
+          "category": "은행/금융",
+          "icon": "HandHeart",
+          "description": "자동이체 승인 관련 서류"
+        },
+        {
+          "id": "명의변경 신청서",
+          "name": "명의변경 신청서",
+          "category": "은행/금융",
+          "icon": "Users",
+          "description": "계좌 명의변경 신청 서류"
+        },
+        {
+          "id": "기업인터넷뱅킹_가상계좌발급_목적확인서",
+          "name": "기업인터넷뱅킹 가상계좌발급 목적확인서",
+          "category": "은행/금융",
+          "icon": "Building",
+          "description": "기업 인터넷뱅킹 가상계좌 발급 목적 확인 서류"
+        },
+        {
+          "id": "제신고서",
+          "name": "제신고서",
+          "category": "은행/금융",
+          "icon": "FileText",
+          "description": "각종 제신고 관련 서류"
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "name": "보험",
+      "icon": "Shield",
+      "color": "from-emerald-500 to-teal-500",
+      "documents": [
+        {
+          "id": "위임장",
+          "name": "보험 위임장",
+          "category": "보험",
+          "icon": "UserCheck",
+          "description": "보험업무 위임 관련 서류"
+        },
+        {
+          "id": "간병인 지원 서비스 신청서",
+          "name": "간병인 지원 서비스 신청서",
+          "category": "보험",
+          "icon": "Users",
+          "description": "간병인 지원 서비스 신청 관련 서류"
+        },
+        {
+          "id": "도난_파손_사실 확인서",
+          "name": "도난(파손)사실 확인서",
+          "category": "보험",
+          "icon": "AlertTriangle",
+          "description": "도난 및 파손사실 확인 서류"
+        },
+        {
+          "id": "보험계약대출 승계 동의서",
+          "name": "보험계약대출 승계 동의서",
+          "category": "보험",
+          "icon": "Shield",
+          "description": "보험계약대출 승계 동의 관련 서류"
+        }
+      ]
+    }
+  ]
+}

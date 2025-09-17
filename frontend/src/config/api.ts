@@ -11,7 +11,9 @@ export const apiConfig: APIConfig = {
 // API 엔드포인트
 export const endpoints = {
   ocr: {
-    process: import.meta.env.VITE_OCR_ENDPOINT || '/api/v1/ocr/process',
+    // 백엔드 FastAPI의 실제 엔드포인트에 맞춤
+    process: import.meta.env.VITE_OCR_ENDPOINT || '/insert',
+    // 현재 백엔드는 상태 폴링 엔드포인트를 제공하지 않음 (호환을 위해 키만 유지)
     status: import.meta.env.VITE_STATUS_ENDPOINT || '/api/v1/status',
   },
   upload: import.meta.env.VITE_UPLOAD_ENDPOINT || '/api/v1/upload',

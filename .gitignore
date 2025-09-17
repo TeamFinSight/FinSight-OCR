@@ -1,55 +1,168 @@
-# Next.js
-.next/
-out/
-.vercel/
-
-# Node
-node_modules/
-logs/
-*.log
-*.log.*
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-.node_repl_history
-
-# Env
-.env*
-.envrc
-!.env.example
-.direnv/
-
-# TypeScript
-*.tsbuildinfo
-next-env.d.ts
-
-# Tests
-coverage/
-.nyc_output/
-
-# Turbopack / Turborepo
-.turbo/
-
-# Storybook
-storybook-static/
-
-# IDE / Editor
-.vscode/
-!.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/tasks.json
-.idea/
-*.iml
-
+# =========================
+# 공통
+# =========================
 # OS
 .DS_Store
 Thumbs.db
 
-# Misc
+# 에디터/IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
 .history/
-*.swp
-node_modules/.cache/
+*.code-workspace
+
+# 환경 변수
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+# 로그
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+uvicorn*.log
+
+# 캐시
+.cache/
+.tmp/
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
+# 아카이브(대용량 산출물은 저장소 제외 권장)
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# =========================
+# 프런트엔드: React 18 + TS + Vite
+# =========================
+node_modules/
+dist/
+build/
+.vite/
+.storybook-out/
+storybook-static/
+coverage/
+.cypress/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# 패키지 매니저 스토어
+.pnpm-store/
+.npm/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# =========================
+# 백엔드: FastAPI + Python
+# =========================
+# 바이트코드 / 빌드
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+wheels/
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
+
+# 가상환경
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# 패키지/툴 캐시
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+.ruff_cache/
+.tox/
+.nox/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 커버리지
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.coverage.*
+
+# 주피터
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# =========================
+# AI/ML 산출물: PyTorch, OpenCV, timm, etc.
+# =========================
+# 모델/체크포인트/추론결과
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.tflite
+*.pb
+*.h5
+*.joblib
+*.pkl
+*.sav
+*.npz
+*.npy
+
+# 학습/로그
+runs/
+wandb/
+lightning_logs/
+tensorboard/
+tb_logs/
+mlruns/
+
+# 데이터 디렉터리(필요하면 예시 파일만 남기고 .gitkeep 사용)
+data/
+datasets/
+inputs/
+outputs/
+checkpoints/
+models/
+!data/.gitkeep
+!datasets/.gitkeep
+!inputs/.gitkeep
+!outputs/.gitkeep
+!checkpoints/.gitkeep
+!models/.gitkeep
+
+# =========================
+# 컨테이너/배포(사용 시)
+# =========================
+# Docker(선택)
+docker-data/
+.docker/
+
 
 CLAUDE.md

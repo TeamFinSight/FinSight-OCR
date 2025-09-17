@@ -100,11 +100,16 @@ class APIClient {
 
     return new Promise((resolve) => {
       const formData = new FormData();
-      formData.append('file', file);
+      // 기본 키는 'file'이지만, 백엔드가 특정 키명을 요구할 수 있으므로 오버라이드 지원
+      const customFileField = additionalData && typeof additionalData.__customFileFieldName === 'string'
+        ? additionalData.__customFileFieldName
+        : 'file';
+      formData.append(customFileField, file);
       
       // 추가 데이터 추가
       if (additionalData) {
         Object.entries(additionalData).forEach(([key, value]) => {
+          if (key === '__customFileFieldName') return; // 내부 옵션은 FormData에 포함하지 않음
           formData.append(key, typeof value === 'string' ? value : JSON.stringify(value));
         });
       }
@@ -171,6 +176,11 @@ class APIClient {
   // 건강 상태 확인
   async healthCheck(): Promise<APIResponse<{ status: string; timestamp: string }>> {
     return this.get('/api/v1/health');
+  }
+
+  // 문서 종류 목록 가져오기
+  async getDocumentTypes(): Promise<APIResponse<{ categories: any[] }>> {
+    return this.get('/api/v1/document-types');
   }
 }
 

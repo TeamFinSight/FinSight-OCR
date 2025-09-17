@@ -3,14 +3,6 @@ export interface TableData {
   rows: string[][];
 }
 
-export interface OCRMetrics {
-  accuracy: number;
-  precision: number;
-  recall: number;
-  f1Score: number;
-  confidence: number;
-  processingTime: number;
-}
 
 export interface DocumentType {
   id: string;
@@ -49,7 +41,6 @@ export interface OCRRequest {
 export interface OCRResponse {
   extracted_text: string;
   table_data: TableData;
-  metrics: OCRMetrics;
   processing_time: number;
   document_type: string;
   confidence_score: number;

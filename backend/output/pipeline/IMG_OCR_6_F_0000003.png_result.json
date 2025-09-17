@@ -1,0 +1,700 @@
+{
+  "metadata": {
+    "source_image": "IMG_OCR_6_F_0000003.png",
+    "processed_at": "2025-09-17T14:58:33.623151",
+    "total_detections": 31,
+    "model_info": {
+      "detection_model": "DBNet (ResNet18)",
+      "recognition_model": "RobustKoreanCRNN (EfficientNet-B2 + BiLSTM + CTC)"
+    }
+  },
+  "document_info": {
+    "width": 2480,
+    "height": 3508,
+    "document_type": "identity_delegation"
+  },
+  "fields": [
+    {
+      "id": 1,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "ewuch@eau.c.k",
+      "confidence": -0.6369058008377368,
+      "value_box": {
+        "x": [
+          720,
+          720,
+          1242,
+          1242
+        ],
+        "y": [
+          1458,
+          1330,
+          1330,
+          1458
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 2,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "127-9076-2914-61",
+      "confidence": -0.23701525828801095,
+      "value_box": {
+        "x": [
+          1829,
+          1829,
+          2275,
+          2275
+        ],
+        "y": [
+          1121,
+          1008,
+          1008,
+          1121
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 3,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "853246-3916271",
+      "confidence": -0.26869797989326927,
+      "value_box": {
+        "x": [
+          1867,
+          1867,
+          2301,
+          2301
+        ],
+        "y": [
+          588,
+          475,
+          475,
+          588
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 4,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "3680919-6109",
+      "confidence": -0.19443636915336052,
+      "value_box": {
+        "x": [
+          565,
+          963,
+          963,
+          565
+        ],
+        "y": [
+          650,
+          650,
+          771,
+          771
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 5,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "030-33-97115",
+      "confidence": -0.6824704185128212,
+      "value_box": {
+        "x": [
+          1841,
+          1841,
+          2229,
+          2229
+        ],
+        "y": [
+          946,
+          833,
+          833,
+          946
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 6,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "02078-27201",
+      "confidence": -0.35075382295657287,
+      "value_box": {
+        "x": [
+          1919,
+          1919,
+          2275,
+          2275
+        ],
+        "y": [
+          500,
+          387,
+          387,
+          500
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 7,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "082-3016-9617",
+      "confidence": -0.005564541444003295,
+      "value_box": {
+        "x": [
+          1847,
+          1847,
+          2221,
+          2221
+        ],
+        "y": [
+          763,
+          661,
+          661,
+          763
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 8,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "주종특별자치시",
+      "confidence": -0.07341583150056456,
+      "value_box": {
+        "x": [
+          405,
+          405,
+          720,
+          720
+        ],
+        "y": [
+          950,
+          833,
+          833,
+          950
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 9,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "회밀리타운",
+      "confidence": -0.43327431390061977,
+      "value_box": {
+        "x": [
+          578,
+          578,
+          844,
+          844
+        ],
+        "y": [
+          1553,
+          1432,
+          1432,
+          1553
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 10,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "서울특별시",
+      "confidence": -0.0037681061763578327,
+      "value_box": {
+        "x": [
+          594,
+          594,
+          857,
+          857
+        ],
+        "y": [
+          683,
+          562,
+          562,
+          683
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 11,
+      "labels": "",
+      "rotation": 89.34893798828125,
+      "value_text": "sqmpsov",
+      "confidence": -0.21431646256574563,
+      "value_box": {
+        "x": [
+          1099,
+          1389,
+          1390,
+          1100
+        ],
+        "y": [
+          749,
+          744,
+          852,
+          857
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 12,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "19711.14",
+      "confidence": -0.3331765015464043,
+      "value_box": {
+        "x": [
+          1836,
+          2115,
+          2115,
+          1836
+        ],
+        "y": [
+          749,
+          749,
+          855,
+          855
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 13,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "sypvtyi",
+      "confidence": -0.1986455545494599,
+      "value_box": {
+        "x": [
+          767,
+          767,
+          1010,
+          1010
+        ],
+        "y": [
+          862,
+          745,
+          745,
+          862
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 14,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "천수로9길",
+      "confidence": -0.0005938825408520643,
+      "value_box": {
+        "x": [
+          1441,
+          1694,
+          1694,
+          1441
+        ],
+        "y": [
+          566,
+          566,
+          676,
+          676
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 15,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "김도하",
+      "confidence": -0.0020705074687915235,
+      "value_box": {
+        "x": [
+          1852,
+          1852,
+          2038,
+          2038
+        ],
+        "y": [
+          3303,
+          3186,
+          3186,
+          3303
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 16,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "순국당",
+      "confidence": -0.02329054249761005,
+      "value_box": {
+        "x": [
+          666,
+          666,
+          852,
+          852
+        ],
+        "y": [
+          496,
+          387,
+          387,
+          496
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 17,
+      "labels": "",
+      "rotation": 88.80650329589844,
+      "value_text": "LBANK,",
+      "confidence": -0.443677083236859,
+      "value_box": {
+        "x": [
+          1003,
+          1187,
+          1189,
+          1005
+        ],
+        "y": [
+          475,
+          470,
+          580,
+          585
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 18,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "곰맥휴스",
+      "confidence": -0.4764441125930716,
+      "value_box": {
+        "x": [
+          1263,
+          1436,
+          1436,
+          1263
+        ],
+        "y": [
+          3190,
+          3190,
+          3303,
+          3303
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 19,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "서논산시",
+      "confidence": -0.2268954939518153,
+      "value_box": {
+        "x": [
+          780,
+          958,
+          958,
+          780
+        ],
+        "y": [
+          836,
+          836,
+          946,
+          946
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 20,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "서문가연",
+      "confidence": -0.5799961834127316,
+      "value_box": {
+        "x": [
+          421,
+          421,
+          599,
+          599
+        ],
+        "y": [
+          855,
+          745,
+          745,
+          855
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 21,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "오치동",
+      "confidence": -0.938575918097437,
+      "value_box": {
+        "x": [
+          1100,
+          1100,
+          1271,
+          1271
+        ],
+        "y": [
+          942,
+          836,
+          836,
+          942
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 22,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "META,",
+      "confidence": -0.06342078862289782,
+      "value_box": {
+        "x": [
+          612,
+          612,
+          782,
+          782
+        ],
+        "y": [
+          584,
+          478,
+          478,
+          584
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 23,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "영양군",
+      "confidence": -0.1692785996820021,
+      "value_box": {
+        "x": [
+          1046,
+          1211,
+          1211,
+          1046
+        ],
+        "y": [
+          570,
+          570,
+          668,
+          668
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 24,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "홍시민",
+      "confidence": -1.0034258877761506,
+      "value_box": {
+        "x": [
+          514,
+          514,
+          643,
+          643
+        ],
+        "y": [
+          1118,
+          1015,
+          1015,
+          1118
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 25,
+      "labels": "",
+      "rotation": 87.79740142822266,
+      "value_text": "1,889",
+      "confidence": -0.5322534918785096,
+      "value_box": {
+        "x": [
+          753,
+          869,
+          871,
+          755
+        ],
+        "y": [
+          1247,
+          1240,
+          1332,
+          1339
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 26,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1,73",
+      "confidence": -0.38967370032605686,
+      "value_box": {
+        "x": [
+          1407,
+          1407,
+          1511,
+          1511
+        ],
+        "y": [
+          935,
+          840,
+          840,
+          935
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 27,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "1,221",
+      "confidence": -0.5084321677684784,
+      "value_box": {
+        "x": [
+          547,
+          547,
+          661,
+          661
+        ],
+        "y": [
+          1191,
+          1107,
+          1107,
+          1191
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 28,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1,132",
+      "confidence": -0.25583666722814086,
+      "value_box": {
+        "x": [
+          1891,
+          1891,
+          2004,
+          2004
+        ],
+        "y": [
+          661,
+          577,
+          577,
+          661
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 29,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1:49",
+      "confidence": -0.3441747563183526,
+      "value_box": {
+        "x": [
+          155,
+          155,
+          248,
+          248
+        ],
+        "y": [
+          3288,
+          3197,
+          3197,
+          3288
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 30,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1.8",
+      "confidence": -0.3670136380387703,
+      "value_box": {
+        "x": [
+          568,
+          622,
+          622,
+          568
+        ],
+        "y": [
+          3201,
+          3201,
+          3285,
+          3285
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 31,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "북구",
+      "confidence": -0.7231694757938385,
+      "value_box": {
+        "x": [
+          356,
+          356,
+          413,
+          413
+        ],
+        "y": [
+          3285,
+          3208,
+          3208,
+          3285
+        ],
+        "type": "polygon"
+      }
+    }
+  ]
+}

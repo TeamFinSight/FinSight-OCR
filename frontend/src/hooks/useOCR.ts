@@ -1,11 +1,10 @@
 import { useState, useCallback } from 'react';
-import { 
-  OCRRequest, 
-  OCRResponse, 
-  ProcessingStatus, 
+import {
+  OCRRequest,
+  OCRResponse,
+  ProcessingStatus,
   UploadProgress,
-  TableData,
-  OCRMetrics
+  TableData
 } from '../types';
 import { ocrService } from '../services/ocrService';
 
@@ -24,7 +23,6 @@ interface UseOCRResult {
   // 편의 getter
   extractedText: string;
   tableData: TableData | null;
-  metrics: OCRMetrics | null;
 }
 
 export const useOCR = (): UseOCRResult => {
@@ -89,7 +87,6 @@ export const useOCR = (): UseOCRResult => {
   // 편의 getter
   const extractedText = result?.extracted_text || '';
   const tableData = result?.table_data || null;
-  const metrics = result?.metrics || null;
 
   return {
     isProcessing,
@@ -101,6 +98,5 @@ export const useOCR = (): UseOCRResult => {
     reset,
     extractedText,
     tableData,
-    metrics,
   };
 };
