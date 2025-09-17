@@ -141,21 +141,32 @@ cd FinSight-OCR
 ```
 
 ### 2. 환경 설정
+
+#### 방법 1: environment.yml 사용 (권장)
 ```bash
-# Conda 환경 생성 (권장)
-conda create -n finOcr python=3.9
-conda activate finOcr
+# Conda 환경 파일로 한 번에 설정
+conda env create -f environment.yml
+conda activate finsight-ocr
+```
+
+#### 방법 2: 수동 설정
+```bash
+# Conda 환경 생성
+conda create -n finsight-ocr python=3.9
+conda activate finsight-ocr
 
 # PyTorch 설치 (CUDA 지원)
 pip install torch==2.1.2+cu121 torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu121
+
+# 백엔드 의존성 설치
+pip install -r requirements.txt
 ```
+
+> **참고**: `environment.yml` 파일에는 프로젝트에 필요한 모든 Python 패키지와 의존성이 포함되어 있어 더 안정적인 환경 구성이 가능합니다.
 
 ### 3. 백엔드 설정
 ```bash
 cd backend
-
-# 의존성 설치 (AI 모델 포함)
-pip install -r modelrun/requirements.txt
 
 # FastAPI 서버 실행
 uvicorn main:app --reload
@@ -163,11 +174,14 @@ uvicorn main:app --reload
 python main.py
 ```
 
-**주요 의존성**:
+**주요 의존성 (environment.yml에 포함)**:
 - PyTorch 2.1+ (CUDA 지원)
 - OpenCV, timm (모델 백본)
 - WandB (실험 관리)
 - FastAPI, pandas, numpy
+- EasyOCR 1.7.0
+- Albumentations 2.0.8
+- 기타 AI/ML 관련 패키지들
 
 ### 4. 프론트엔드 설정
 ```bash
@@ -187,6 +201,41 @@ npm run dev
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:8000
 - **API 문서**: http://localhost:8000/docs
+
+### 환경 파일 상세 정보
+
+#### environment.yml 구성 요소
+`environment.yml` 파일은 Conda 환경 설정을 위한 YAML 파일로 다음과 같은 구성을 가지고 있습니다:
+
+- **환경명**: `finsight-ocr`
+- **Python 버전**: 3.9
+- **채널**: conda-forge, defaults
+- **주요 패키지**:
+  - **딥러닝**: PyTorch 2.1.2+cu121, torchvision, torchaudio
+  - **컴퓨터 비전**: OpenCV, albumentations, scikit-image
+  - **웹 프레임워크**: FastAPI, uvicorn
+  - **OCR**: EasyOCR 1.7.0
+  - **데이터 처리**: pandas, numpy, scipy
+  - **실험 관리**: WandB 0.21.3
+  - **기타**: timm, kornia, optuna 등
+
+#### 환경 관리 명령어
+```bash
+# 환경 활성화
+conda activate finsight-ocr
+
+# 환경 비활성화
+conda deactivate
+
+# 환경 삭제 (필요시)
+conda env remove -n finsight-ocr
+
+# 설치된 패키지 확인
+conda list
+
+# 환경 정보 내보내기 (업데이트된 패키지 정보 저장)
+conda env export > environment.yml --no-builds
+```
 
 ## 📁 프로젝트 구조
 
@@ -572,13 +621,14 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 ### 팀명: FinSight
 | 역할 | 담당자 | 이메일 주소 |
 |--------|------|-----------|
-| 팀 리더 | 김철수, 프론트엔드 | leader@finsight.co, 모델링 담당, 프론트엔드 |
-| 서버 | 프론트엔드 개발 | 모델링 담당, 프론트엔드, 클라우드 환경 |
-| 웹 개발 | 백엔드 개발 | 모델링 담당, 백엔드 개발 |
-| 웹개발 | 백엔드 | 모델링 담당, 백엔드 |
-| 서버H | 백엔드 | 모델링 담당, 백엔드 |
+| 팀 리더 | 김태식, 모델링 및 로직 총괄 | 발표자료 및 준비, 로직 총괄 |
+| 팀원 | 강성룡, 프론트엔드 총괄 | GitHub 리포지터리 관리, 프론트엔드 개발, 클라우드 환경 |
+| 팀원 | 경준오, 백엔드 개발 | , 백엔드 개발 |
+| 팀원 | 김선우, 백엔드 개발 | , 백엔드 |
+| 팀원 | 백승빈, 백엔드 개발 | , 백엔드 |
 
 ### 개발 환경
+- **H/W**: NVIDIA RTX 3080 Ti, 
 - **S/W**: Windows 11, Python 3.9+, Node.js 18+
 - **Tools**: Visual Studio Code, Git, Docker, WandB
 
