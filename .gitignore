@@ -15,7 +15,7 @@ pnpm-debug.log*
 lerna-debug.log*
 .node_repl_history
 
-# Env (예시는 커밋)
+# Env
 .env*
 .envrc
 !.env.example
