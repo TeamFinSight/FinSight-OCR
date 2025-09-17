@@ -8,6 +8,7 @@ import {
 } from '../types';
 import { apiClient } from './api';
 import { endpoints } from '../config/api';
+import { mapFrontendIdToBackendTypeName } from '../constants/documentTypeMapping';
 
 export class OCRService {
   // FastAPI 백엔드와 연동하여 OCR 처리
@@ -24,6 +25,10 @@ export class OCRService {
         message: '이미지를 업로드하는 중...',
       });
 
+      // 프론트엔드 문서 타입 ID를 백엔드 type_name으로 변환
+      const backendDocumentType = mapFrontendIdToBackendTypeName(request.document_type);
+      console.log(`문서 타입 매핑: ${request.document_type} -> ${backendDocumentType}`);
+
       // 파일 업로드 및 OCR 처리 요청 (백엔드 요구: filename, doc_type)
       const uploadResponse = await apiClient.uploadFile<any>(
         endpoints.ocr.process,
@@ -35,7 +40,7 @@ export class OCRService {
           // filename 필드는 FastAPI에서 UploadFile로 수신하므로 파일 파트 이름을 'filename'으로 맞춰야 함
           // 아래에서 FormData 키를 오버라이드하도록 uploadFile을 확장 호출
           __customFileFieldName: 'filename',
-          doc_type: request.document_type,
+          doc_type: backendDocumentType, // 매핑된 백엔드 문서 타입 사용
           // 유지: 옵션은 현재 백엔드에서 사용하지 않지만 호환 목적으로 전송
           options: request.options || {},
         },

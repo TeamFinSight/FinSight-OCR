@@ -33,18 +33,24 @@ class BoxLabel():
 
 
     def get_data(self, data):
-        print(data["document_info"]["document_type"])
+        print(f"입력받은 문서 타입: {data['document_info']['document_type']}")
         doc = data["document_info"]["document_type"]
-        # self.bin_box = bin
+
+        # 문서 타입 매칭 시도
         doctype_list = list(filter(lambda b: b["type_name"] == doc, self.labels))
 
         if not doctype_list:
-            print(f"문서 타입 '{doc}'을 찾을 수 없습니다. 기본 라벨링을 사용합니다.")
-            # 기본 라벨링 사용 또는 에러 반환
+            print(f"문서 타입 '{doc}'을 찾을 수 없습니다.")
+            print("사용 가능한 문서 타입 목록:")
+            for label in self.labels:
+                print(f"  - {label['type_name']}")
+
+            # 기본 라벨링 없이 원본 데이터 반환 (라벨링 없음)
+            print("기본 라벨링을 사용하지 않고 원본 데이터를 반환합니다.")
             return data
 
         doctype = doctype_list[0]
-        # print(doctype)
+        print(f"매칭된 문서 타입: {doctype['type_name']}")
         self.bin_box = doctype["bin_box"]
         data = self.formlabeling(data)
 
