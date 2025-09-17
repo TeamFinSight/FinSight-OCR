@@ -1,0 +1,55 @@
+# Next.js
+.next/
+out/
+.vercel/
+
+# Node
+node_modules/
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.node_repl_history
+
+# Env (예시는 커밋)
+.env*
+.envrc
+!.env.example
+.direnv/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Tests
+coverage/
+.nyc_output/
+
+# Turbopack / Turborepo
+.turbo/
+
+# Storybook
+storybook-static/
+
+# IDE / Editor
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+.history/
+*.swp
+node_modules/.cache/
+
+CLAUDE.md
