@@ -364,24 +364,147 @@ class OCR_Pipeline:
         
         return results, original_image
 
+
+    async def predict2(self, file, det_size=960, box_thresh=0.5, nms_thresh=0.2):
+        content = await file.read()
+        np_array = np.frombuffer(content, np.uint8)
+        original_image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
+        if original_image is None:
+            raise IOError("Failed to decode image")
+        # 이제 img를 사용 가능
+
+        h_orig, w_orig, _ = original_image.shape
+        image_pil = Image.fromarray(cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB))
+
+        # 1. 텍스트 탐지 (DBNet)
+        det_input = self.det_transform(image_pil).unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            det_output = self.det_model(det_input)
+            prob_map = torch.sigmoid(det_output[:, 0, :, :]).squeeze(0).cpu().numpy()
+
+        # 2. 후처리 및 폴리곤 추출 (단순화 및 안정화된 방식)
+        binary_map = (prob_map > box_thresh).astype(np.uint8)
+        contours, _ = cv2.findContours(binary_map, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        
+        initial_boxes = []
+        scores = []
+        angles = []
+        for contour in contours:
+            if cv2.contourArea(contour) < 3:
+                continue
+            
+            # Pyclipper로 폴리곤 확장 (un-shrink)
+            points = contour.reshape(-1, 2)
+            try:
+                poly = Polygon(points)
+                distance = poly.area * 1.2 / poly.length # 여백 조절 (1.5 -> 1.2)
+                pco = pyclipper.PyclipperOffset()
+                pco.AddPath(points, pyclipper.JT_ROUND, pyclipper.ET_CLOSEDPOLYGON)
+                expanded_polygons = pco.Execute(distance)
+                if not expanded_polygons: continue
+
+                # 확장된 폴리곤을 4점 사각형으로 변환
+                for exp_poly in expanded_polygons:
+                    rect = cv2.minAreaRect(np.array(exp_poly))
+                    box = cv2.boxPoints(rect)
+                    initial_boxes.append(box)
+                    scores.append(cv2.contourArea(box))
+                    angles.append(rect[2])
+            except Exception:
+                continue
+
+        print(f"Detected {len(initial_boxes)} initial boxes.")
+        if not initial_boxes:
+            return [], original_image
+
+        # 3. NMS로 중복 박스 제거
+        bounding_rects_for_nms = [cv2.boundingRect(box) for box in initial_boxes]
+        indices = cv2.dnn.NMSBoxes(bounding_rects_for_nms, scores, score_threshold=0.1, nms_threshold=nms_thresh)
+
+        if len(indices) == 0:
+            final_polygons = []
+            final_angles = []
+        else:
+            indices = indices.flatten()
+            final_polygons = [initial_boxes[i] for i in indices]
+            final_angles = [angles[i] for i in indices]
+        
+        if not final_polygons:
+             print("No polygons left after NMS.")
+             return [], original_image
+
+        print(f"Kept {len(final_polygons)} polygons after NMS.")
+
+        # 4. 텍스트 인식 (배치 처리)
+        cropped_images, result_boxes, result_rotations = [], [], []
+        for i, poly in enumerate(final_polygons):
+            scaled_poly = (poly.astype(np.float32) * [w_orig / det_size, h_orig / det_size])
+            
+            warped_img = self._crop_and_warp(original_image, scaled_poly)
+            if warped_img is None: continue
+
+            target_height = 128
+            max_width = 1024
+            warped_pil = Image.fromarray(warped_img).convert("L")
+            
+            original_width, original_height = warped_pil.size
+            if original_height == 0: continue
+
+            aspect_ratio = original_width / original_height
+            new_width = int(target_height * aspect_ratio)
+            
+            resized_pil = warped_pil.resize((new_width, target_height), Image.Resampling.LANCZOS)
+
+            if new_width > max_width:
+                final_img = resized_pil.crop((0, 0, max_width, target_height))
+            else:
+                final_img = Image.new("L", (max_width, target_height), 0)
+                final_img.paste(resized_pil, (0, 0))
+            
+            cropped_images.append(self.rec_transform(final_img))
+            result_boxes.append(scaled_poly.astype(np.int32))
+            result_rotations.append(final_angles[i])
+
+        if not cropped_images:
+            return [], original_image
+
+        rec_input = torch.stack(cropped_images).to(self.device)
+        with torch.no_grad():
+            rec_preds = self.rec_model(rec_input)
+        
+        results = []
+        for i, pred in enumerate(rec_preds.permute(1, 0, 2)):
+            text, confidence = self._ctc_decode(pred)
+            results.append({"box": result_boxes[i].tolist(), "text": text, "rotation": result_rotations[i], "confidence": confidence})
+        
+        return results, original_image
+
 # --- 3. 커맨드라인 실행 부분 ---
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="OCR 파이프라인 (DBNet 호환): 이미지에서 텍스트를 탐지하고 인식합니다.")
-    parser.add_argument("--det_weights", type=str, required=True, help="학습된 DBNet 탐지 모델(.pth)의 경로")
-    parser.add_argument("--rec_weights", type=str, required=True, help="학습된 인식 모델(.pth)의 경로")
-    parser.add_argument("--source", type=str, required=True, help="처리할 이미지 파일의 경로")
-    parser.add_argument("--char_map", type=str, default="configs/recognition/korean_char_map.txt", help="문자 맵 파일 경로")
-    parser.add_argument("--output_dir", type=str, default="output/pipeline", help="결과 이미지를 저장할 디렉토리")
-    parser.add_argument("--document_type", type=str, default="unknown", help="문서 종류 (JSON 결과에 포함)")
-    args = parser.parse_args()
 
-    ocr_pipeline = OCR_Pipeline(args.det_weights, args.rec_weights, args.char_map)
+async def request_Ocr(file, doc_type):
 
-    print(f"\n--- OCR 처리 시작: {args.source} ---")
-    results, original_image = ocr_pipeline.predict(args.source)
+# if __name__ == '__main__':
+    # parser = argparse.ArgumentParser(description="OCR 파이프라인 (DBNet 호환): 이미지에서 텍스트를 탐지하고 인식합니다.")
+    # parser.add_argument("--det_weights", type=str, required=True, help="학습된 DBNet 탐지 모델(.pth)의 경로", default="saved_models/dbnet_a100_best.pth")
+    # parser.add_argument("--rec_weights", type=str, required=True, help="학습된 인식 모델(.pth)의 경로", default="saved_models/robust_korean_recognition_best.pth")
+    # parser.add_argument("--source", type=str, required=True, help="처리할 이미지 파일의 경로")
+    # parser.add_argument("--char_map", type=str, default="configs/recognition/korean_char_map.txt", help="문자 맵 파일 경로")
+    # parser.add_argument("--output_dir", type=str, default="output/pipeline", help="결과 이미지를 저장할 디렉토리")
+    # parser.add_argument("--document_type", type=str, default="unknown", help="문서 종류 (JSON 결과에 포함)")
+    # args = parser.parse_args()
+    default_path = "modelrun/"
+    det_weights = default_path+"saved_models/dbnet_a100_best.pth"
+    rec_weights = default_path+"saved_models/robust_korean_recognition_best.pth"
+    char_map = default_path+"configs/recognition/korean_char_map.txt"
+    ocr_pipeline = OCR_Pipeline(det_weights, rec_weights, char_map)
+    #===================
+
+    print(f"\n--- OCR 처리 시작: args.source ---")
+    results, original_image =  await ocr_pipeline.predict2(file)
     print(f"\n--- OCR 처리 완료 --- ({len(results)}개 텍스트 탐지)")
 
-    output_dir = Path(args.output_dir)
+    output_dir = Path("output/pipeline")
     output_dir.mkdir(parents=True, exist_ok=True)
     vis_image = original_image.copy()
 
@@ -405,7 +528,8 @@ if __name__ == '__main__':
     
     vis_image = cv2.cvtColor(np.array(vis_image_pil), cv2.COLOR_RGB2BGR)
     
-    save_path = output_dir / f"{Path(args.source).stem}_result.jpg"
+    # save_path = output_dir / f"{Path(args.source).stem}_result.jpg"
+    save_path = output_dir / f"{file.filename}_result.jpg"
     # Use robust image writing for Windows Unicode paths
     is_success, im_buf_arr = cv2.imencode(".jpg", vis_image)
     if is_success:
@@ -417,7 +541,7 @@ if __name__ == '__main__':
     # JSON 결과 저장 로직
     json_data = {
         "metadata": {
-            "source_image": str(args.source),
+            "source_image": str(file.filename),
             "processed_at": datetime.now().isoformat(),
             "total_detections": len(results),
             "model_info": {
@@ -428,7 +552,7 @@ if __name__ == '__main__':
         "document_info": {
             "width": original_image.shape[1],
             "height": original_image.shape[0],
-            "document_type": args.document_type
+            "document_type": doc_type
         },
         "fields": [
             {
@@ -446,8 +570,10 @@ if __name__ == '__main__':
         ]
     }
     
-    json_path = output_dir / f"{Path(args.source).stem}_result.json"
+    # json_path = output_dir / f"{Path(args.source).stem}_result.json"
+    json_path = output_dir / f"{file.filename}_result.json"
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(json_data, f, ensure_ascii=False, indent=2)
     print(f"JSON 결과가 {json_path} 에 저장되었습니다.")
+    return json_data
 
