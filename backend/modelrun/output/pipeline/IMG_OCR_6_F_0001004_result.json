@@ -1,0 +1,744 @@
+{
+  "metadata": {
+    "source_image": "IMG_OCR_6_F_0001004.png",
+    "processed_at": "2025-09-16T16:57:35.646050",
+    "total_detections": 33,
+    "model_info": {
+      "detection_model": "DBNet (ResNet18)",
+      "recognition_model": "RobustKoreanCRNN (EfficientNet-B2 + BiLSTM + CTC)"
+    }
+  },
+  "document_info": {
+    "width": 2479,
+    "height": 3508,
+    "document_type": "unknown"
+  },
+  "fields": [
+    {
+      "id": 1,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "613-2-856-35",
+      "confidence": -0.2640135894762352,
+      "value_box": {
+        "x": [
+          1066,
+          1066,
+          1523,
+          1523
+        ],
+        "y": [
+          1958,
+          1838,
+          1838,
+          1958
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 2,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "95451465",
+      "confidence": -0.5571899286005646,
+      "value_box": {
+        "x": [
+          743,
+          1136,
+          1136,
+          743
+        ],
+        "y": [
+          1490,
+          1490,
+          1615,
+          1615
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 3,
+      "labels": "",
+      "rotation": 89.51853942871094,
+      "value_text": "7-10-516",
+      "confidence": -0.6360619042206963,
+      "value_box": {
+        "x": [
+          1822,
+          2197,
+          2197,
+          1823
+        ],
+        "y": [
+          826,
+          821,
+          943,
+          947
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 4,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "543045-11834",
+      "confidence": -0.1551098427735269,
+      "value_box": {
+        "x": [
+          821,
+          1247,
+          1247,
+          821
+        ],
+        "y": [
+          657,
+          657,
+          763,
+          763
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 5,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "v630ey.cok",
+      "confidence": -1.2385973274707793,
+      "value_box": {
+        "x": [
+          1515,
+          1892,
+          1892,
+          1515
+        ],
+        "y": [
+          1501,
+          1501,
+          1618,
+          1618
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 6,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "wvtxuc226",
+      "confidence": -0.4674522208256854,
+      "value_box": {
+        "x": [
+          1014,
+          1014,
+          1381,
+          1381
+        ],
+        "y": [
+          1870,
+          1757,
+          1757,
+          1870
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 7,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "해외자자금농금",
+      "confidence": -0.253194952375322,
+      "value_box": {
+        "x": [
+          640,
+          1004,
+          1004,
+          640
+        ],
+        "y": [
+          1162,
+          1162,
+          1275,
+          1275
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 8,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "CMENEYi.",
+      "confidence": -0.6031879314941762,
+      "value_box": {
+        "x": [
+          1810,
+          2034,
+          2034,
+          1810
+        ],
+        "y": [
+          1673,
+          1673,
+          1783,
+          1783
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 9,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "lwtsjpqc",
+      "confidence": -0.6263116794725647,
+      "value_box": {
+        "x": [
+          1071,
+          1071,
+          1306,
+          1306
+        ],
+        "y": [
+          1688,
+          1589,
+          1589,
+          1688
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 10,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1oot.",
+      "confidence": -1.0763476252555848,
+      "value_box": {
+        "x": [
+          792,
+          792,
+          1012,
+          1012
+        ],
+        "y": [
+          1432,
+          1330,
+          1330,
+          1432
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 11,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "RKAE팡yv.",
+      "confidence": -0.8572775721549988,
+      "value_box": {
+        "x": [
+          1505,
+          1505,
+          1704,
+          1704
+        ],
+        "y": [
+          1786,
+          1677,
+          1677,
+          1786
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 12,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "전라북도",
+      "confidence": -0.00011862723886224558,
+      "value_box": {
+        "x": [
+          624,
+          821,
+          821,
+          624
+        ],
+        "y": [
+          833,
+          833,
+          935,
+          935
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 13,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "TIRL",
+      "confidence": -0.13151570269837976,
+      "value_box": {
+        "x": [
+          1252,
+          1252,
+          1425,
+          1425
+        ],
+        "y": [
+          1523,
+          1417,
+          1417,
+          1523
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 14,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "복곡근우",
+      "confidence": -0.8788382429811463,
+      "value_box": {
+        "x": [
+          1740,
+          1740,
+          1905,
+          1905
+        ],
+        "y": [
+          3025,
+          2916,
+          2916,
+          3025
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 15,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "청귤로",
+      "confidence": -0.13875031352533065,
+      "value_box": {
+        "x": [
+          1278,
+          1278,
+          1438,
+          1438
+        ],
+        "y": [
+          939,
+          829,
+          829,
+          939
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 16,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "홍황성환",
+      "confidence": -1.0249435601435835,
+      "value_box": {
+        "x": [
+          942,
+          942,
+          1112,
+          1112
+        ],
+        "y": [
+          676,
+          573,
+          573,
+          676
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 17,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "13k0ow.",
+      "confidence": -1.1811452767412578,
+      "value_box": {
+        "x": [
+          1644,
+          1644,
+          1817,
+          1817
+        ],
+        "y": [
+          1520,
+          1421,
+          1421,
+          1520
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 18,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1sf0ai",
+      "confidence": -0.838695865124464,
+      "value_box": {
+        "x": [
+          1167,
+          1167,
+          1335,
+          1335
+        ],
+        "y": [
+          1775,
+          1680,
+          1680,
+          1775
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 19,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "경상주시",
+      "confidence": -0.2268406766412454,
+      "value_box": {
+        "x": [
+          999,
+          999,
+          1149,
+          1149
+        ],
+        "y": [
+          935,
+          836,
+          836,
+          935
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 20,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "13,909",
+      "confidence": -0.23928700801722394,
+      "value_box": {
+        "x": [
+          1471,
+          1471,
+          1624,
+          1624
+        ],
+        "y": [
+          1183,
+          1088,
+          1088,
+          1183
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 21,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1cuyvv",
+      "confidence": -0.9768037466953198,
+      "value_box": {
+        "x": [
+          1665,
+          1815,
+          1815,
+          1665
+        ],
+        "y": [
+          577,
+          577,
+          672,
+          672
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 22,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1,3816",
+      "confidence": -0.17778158734048097,
+      "value_box": {
+        "x": [
+          1699,
+          1825,
+          1825,
+          1699
+        ],
+        "y": [
+          2842,
+          2842,
+          2941,
+          2941
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 23,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1post",
+      "confidence": -0.8902799896895885,
+      "value_box": {
+        "x": [
+          898,
+          1032,
+          1032,
+          898
+        ],
+        "y": [
+          1421,
+          1421,
+          1512,
+          1512
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 24,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1,247",
+      "confidence": -0.3638468033197569,
+      "value_box": {
+        "x": [
+          1515,
+          1515,
+          1632,
+          1632
+        ],
+        "y": [
+          935,
+          836,
+          836,
+          935
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 25,
+      "labels": "",
+      "rotation": 87.27368927001953,
+      "value_text": "1,928",
+      "confidence": -0.25395836355164647,
+      "value_box": {
+        "x": [
+          934,
+          1044,
+          1048,
+          938
+        ],
+        "y": [
+          1678,
+          1671,
+          1774,
+          1781
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 26,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "HED",
+      "confidence": -0.7319027880827585,
+      "value_box": {
+        "x": [
+          1996,
+          2127,
+          2127,
+          1996
+        ],
+        "y": [
+          584,
+          584,
+          668,
+          668
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 27,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1vsy",
+      "confidence": -0.6005486065987498,
+      "value_box": {
+        "x": [
+          1776,
+          1776,
+          1892,
+          1892
+        ],
+        "y": [
+          1425,
+          1337,
+          1337,
+          1425
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 28,
+      "labels": "",
+      "rotation": 90.0,
+      "value_text": "1vsp",
+      "confidence": -0.6664784685708582,
+      "value_box": {
+        "x": [
+          914,
+          1022,
+          1022,
+          914
+        ],
+        "y": [
+          1088,
+          1088,
+          1172,
+          1172
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 29,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1:24F",
+      "confidence": -0.5326384053099901,
+      "value_box": {
+        "x": [
+          2120,
+          2120,
+          2200,
+          2200
+        ],
+        "y": [
+          2937,
+          2846,
+          2846,
+          2937
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 30,
+      "labels": "",
+      "rotation": 86.18592071533203,
+      "value_text": "유지",
+      "confidence": -0.2308450739365071,
+      "value_box": {
+        "x": [
+          634,
+          716,
+          720,
+          638
+        ],
+        "y": [
+          1426,
+          1419,
+          1507,
+          1514
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 31,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "동P시",
+      "confidence": -0.35420382022857666,
+      "value_box": {
+        "x": [
+          2107,
+          2107,
+          2182,
+          2182
+        ],
+        "y": [
+          1768,
+          1688,
+          1688,
+          1768
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 32,
+      "labels": "",
+      "rotation": -0.0,
+      "value_text": "유지",
+      "confidence": -0.3217598395422101,
+      "value_box": {
+        "x": [
+          2037,
+          2037,
+          2114,
+          2114
+        ],
+        "y": [
+          1505,
+          1428,
+          1428,
+          1505
+        ],
+        "type": "polygon"
+      }
+    },
+    {
+      "id": 33,
+      "labels": "",
+      "rotation": 0.0,
+      "value_text": "1:2",
+      "confidence": -0.4158924048145612,
+      "value_box": {
+        "x": [
+          1972,
+          1972,
+          2029,
+          2029
+        ],
+        "y": [
+          2934,
+          2853,
+          2853,
+          2934
+        ],
+        "type": "polygon"
+      }
+    }
+  ]
+}

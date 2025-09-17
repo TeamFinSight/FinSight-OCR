@@ -1,0 +1,44 @@
+# File: configs/recognition/sweep_config.yaml
+# Description: Finds optimal hyperparameters using Weights & Biases sweeps.
+
+program: scripts/recognition/train_resnet_ctc.py
+method: bayes  # Bayesian search is more efficient than random search
+metric:
+  name: val_loss
+  goal: minimize
+
+parameters:
+  # --- Hyperparameters to Tune ---
+  lr:
+    distribution: log_uniform_values
+    min: 1e-5  # 0.00001
+    max: 5e-4  # 0.0005
+  dropout_p:
+    distribution: uniform
+    min: 0.3
+    max: 0.7
+  weight_decay:
+    distribution: uniform
+    min: 5e-5   # 0.00005
+    max: 5e-4   # 0.0005
+
+  # --- Fixed Parameters for All Runs ---
+  # You can adjust these fixed values if needed
+  img_h:
+    value: 256
+  target_width:
+    value: 400
+  batch_size:
+    value: 32 # Use the largest batch size that fits your GPU
+  epochs:
+    value: 15 # Max epochs, early stopping is active
+  patience:
+    value: 5
+  train_data_dir:
+    value: "data/Training"
+  val_data_dir:
+    value: "data/Validation"
+  lstm_hidden_size:
+    value: 256
+  lstm_layers:
+    value: 2
