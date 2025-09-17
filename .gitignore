@@ -184,7 +184,7 @@ cython_debug/
 data_mmocr_debug/
 outputs/
 data/
-*.json
+# *.json
 processed_data/
 saved_models/
 wandb/
