@@ -165,7 +165,4 @@ docker-data/
 .docker/
 
 
-!dbnet_a100_best.pth
-!robust_korean_recognition_best.pth
-
 CLAUDE.md
