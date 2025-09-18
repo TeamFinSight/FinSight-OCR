@@ -594,7 +594,7 @@ FinSight-OCR은 Railway 플랫폼을 통한 클라우드 배포를 지원합니�
    railway up
    ```
 
-#### 백엔드 배포
+#### 백엔드 배포 (Docker 방식 권장)
 1. Railway에 프로젝트 연결:
    ```bash
    cd backend
@@ -605,13 +605,14 @@ FinSight-OCR은 Railway 플랫폼을 통한 클라우드 배포를 지원합니�
 2. 환경 변수 설정:
    ```bash
    railway variables set PYTHONUNBUFFERED=1
-   railway variables set PORT=8000
    ```
 
-3. 배포 실행:
+3. Docker 배포 실행:
    ```bash
    railway up
    ```
+
+   > **참고**: Railway에서 `Dockerfile.railway`를 사용하여 CPU 최적화된 버전으로 배포됩니다.
 
 #### Railway 설정 파일
 - `frontend/railway.toml`: 프론트엔드 배포 설정
