@@ -571,54 +571,7 @@ A 중심 [1096, 529, 'bs_name']          →  B 중심 [1097, 532, 'bs_name']
 
 ## 🚀 배포
 
-### Railway 배포 (권장)
-
-FinSight-OCR은 Railway 플랫폼을 통한 클라우드 배포를 지원합니다.
-
-#### 프론트엔드 배포
-1. Railway에 프로젝트 연결:
-   ```bash
-   cd frontend
-   railway login
-   railway link [project-id]
-   ```
-
-2. 환경 변수 설정:
-   ```bash
-   railway variables set NODE_ENV=production
-   railway variables set VITE_API_BASE_URL=https://your-backend-url.railway.app
-   ```
-
-3. 배포 실행:
-   ```bash
-   railway up
-   ```
-
-#### 백엔드 배포 (Docker 방식 권장)
-1. Railway에 프로젝트 연결:
-   ```bash
-   cd backend
-   railway login
-   railway link [project-id]
-   ```
-
-2. 환경 변수 설정:
-   ```bash
-   railway variables set PYTHONUNBUFFERED=1
-   ```
-
-3. Docker 배포 실행:
-   ```bash
-   railway up
-   ```
-
-   > **참고**: Railway에서 `Dockerfile.railway`를 사용하여 CPU 최적화된 버전으로 배포됩니다.
-
-#### Railway 설정 파일
-- `frontend/railway.toml`: 프론트엔드 배포 설정
-- `backend/railway.toml`: 백엔드 배포 설정
-
-### Docker를 활용한 로컬 개발
+### Docker를 활용한 배포
 ```bash
 # 전체 스택 빌드 및 실행
 docker-compose up --build

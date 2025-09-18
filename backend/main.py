@@ -198,7 +198,7 @@ async def process_ocr_api(
 
 @app.get("/health")
 async def health_check():
-    """Railway 헬스체크 엔드포인트"""
+    """헬스체크 엔드포인트"""
     return {"status": "healthy", "service": "FinSight-OCR Backend"}
 
 
