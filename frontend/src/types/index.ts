@@ -40,7 +40,8 @@ export interface OCRRequest {
 
 export interface OCRResponse {
   extracted_text: string;
-  table_data: TableData;
+  refined_table_data: TableData;  // 정제된 데이터
+  raw_table_data: TableData;      // 원본 데이터
   processing_time: number;
   document_type: string;
   confidence_score: number;

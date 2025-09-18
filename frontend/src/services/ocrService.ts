@@ -52,7 +52,9 @@ export class OCRService {
       }
 
       // 백엔드는 즉시 JSON 결과를 반환함. 이를 프론트의 OCRResponse 스키마로 매핑
+      console.log('Raw backend response:', uploadResponse.data);
       const adapted = this.adaptBackendResultToFrontend(uploadResponse.data);
+      console.log('Adapted frontend response:', adapted);
 
       // 상태 업데이트: 완료
       onStatusChange?.({
@@ -83,20 +85,37 @@ export class OCRService {
       throw new Error(backendJson.message || 'OCR 처리 중 오류가 발생했습니다.');
     }
 
-    // backend 구조 예시 (run_ocr.py):
+    // 백엔드에서 정제된 필드 데이터와 원본 필드 데이터를 받음
     // {
     //   metadata: {...},
     //   document_info: { width, height, document_type },
-    //   fields: [{ id, labels, rotation, value_text, confidence, value_box: { x:[], y:[], type:'polygon' } }]
+    //   refined_fields: { label1: "text1", label2: "text2", ... },  // 정제된 딕셔너리 형태
+    //   raw_fields: [{ id, labels, rotation, value_text, confidence, value_box }]  // 원본 배열 형태
     // }
 
-    const extracted_text = Array.isArray(backendJson?.fields)
-      ? backendJson.fields.map((f: any) => f?.value_text).filter(Boolean).join('\n')
+    // 정제된 필드에서 추출된 텍스트 생성 (각 라벨별로 개별 칸에 정리)
+    const extracted_text = backendJson?.refined_fields && typeof backendJson.refined_fields === 'object'
+      ? Object.entries(backendJson.refined_fields)
+          .filter(([label, text]) => label && text) // 라벨과 텍스트가 모두 있는 것만
+          .map(([label, text]) => `[${label}]: ${text}`) // 각 라벨별로 정리
+          .join('\n')
       : '';
 
-    const headers = ['id', 'label', 'text', 'confidence', 'rotation', 'box_x', 'box_y'];
-    const rows: string[][] = Array.isArray(backendJson?.fields)
-      ? backendJson.fields.map((f: any) => [
+    // 정제된 필드를 테이블 형태로 변환
+    const refined_headers = ['라벨', '추출된 텍스트'];
+    const refined_rows: string[][] = backendJson?.refined_fields && typeof backendJson.refined_fields === 'object'
+      ? Object.entries(backendJson.refined_fields).map(([label, text]) => [
+          String(label || ''),
+          String(text || ''),
+        ])
+      : [];
+
+    const refined_table_data: TableData = { headers: refined_headers, rows: refined_rows };
+
+    // 원본 필드를 테이블 형태로 변환
+    const raw_headers = ['id', 'label', 'text', 'confidence', 'rotation', 'box_x', 'box_y'];
+    const raw_rows: string[][] = Array.isArray(backendJson?.raw_fields)
+      ? backendJson.raw_fields.map((f: any) => [
           String(f?.id ?? ''),
           String(f?.labels ?? ''),
           String(f?.value_text ?? ''),
@@ -107,7 +126,7 @@ export class OCRService {
         ])
       : [];
 
-    const table_data: TableData = { headers, rows };
+    const raw_table_data: TableData = { headers: raw_headers, rows: raw_rows };
 
     const processing_time = 0;
     const document_type = backendJson?.document_info?.document_type ?? 'unknown';
@@ -115,7 +134,8 @@ export class OCRService {
 
     return {
       extracted_text,
-      table_data,
+      refined_table_data,
+      raw_table_data,
       processing_time,
       document_type,
       confidence_score,

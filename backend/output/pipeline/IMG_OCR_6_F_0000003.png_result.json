@@ -1,7 +1,7 @@
 {
   "metadata": {
     "source_image": "IMG_OCR_6_F_0000003.png",
-    "processed_at": "2025-09-17T14:58:33.623151",
+    "processed_at": "2025-09-18T12:55:46.243945",
     "total_detections": 31,
     "model_info": {
       "detection_model": "DBNet (ResNet18)",
@@ -11,7 +11,7 @@
   "document_info": {
     "width": 2480,
     "height": 3508,
-    "document_type": "identity_delegation"
+    "document_type": "제신고서"
   },
   "fields": [
     {

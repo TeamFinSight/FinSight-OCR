@@ -11,7 +11,7 @@ import { isValidFileType, isValidFileSize } from '../config/api';
 interface OCRProcessorProps {
   imageFile: File | null;
   documentType: string;
-  onProcessComplete: (extractedData: TableData, originalText: string) => void;
+  onProcessComplete: (refinedData: TableData, rawData: TableData, originalText: string) => void;
   onError?: (error: string) => void;
 }
 
@@ -27,18 +27,18 @@ export function OCRProcessor({
     progress,
     error,
     extractedText,
-    tableData,
-    metrics,
+    refinedTableData,
+    rawTableData,
     processOCR,
     reset
   } = useOCR();
 
   // OCR 처리 완료 시 결과를 부모 컴포넌트에 전달
   useEffect(() => {
-    if (status.status === 'completed' && tableData) {
-      onProcessComplete(tableData, extractedText);
+    if (status.status === 'completed' && refinedTableData && rawTableData) {
+      onProcessComplete(refinedTableData, rawTableData, extractedText);
     }
-  }, [status.status, tableData, extractedText, onProcessComplete]);
+  }, [status.status, refinedTableData, rawTableData, extractedText, onProcessComplete]);
 
   const handleProcessOCR = async () => {
     if (!imageFile) return;

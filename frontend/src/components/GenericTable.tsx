@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -20,6 +20,11 @@ export function GenericTable({ data, title = "추출된 표", subtitle, onDataCh
   const [editingCell, setEditingCell] = useState<{ row: number; col: number } | null>(null);
   const [editValue, setEditValue] = useState('');
   const [tableData, setTableData] = useState<TableData>(data);
+
+  // Update internal state when data prop changes
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
   const handleCellEdit = (rowIndex: number, colIndex: number) => {
     setEditingCell({ row: rowIndex, col: colIndex });

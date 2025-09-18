@@ -14,7 +14,8 @@ import { dummyDataMap } from './constants/dummyOCRData';
 export default function App() {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [processedData, setProcessedData] = useState<TableData | null>(null);
+  const [refinedData, setRefinedData] = useState<TableData | null>(null);
+  const [rawData, setRawData] = useState<TableData | null>(null);
   const [originalText, setOriginalText] = useState<string>('');
   const [selectedDocumentType, setSelectedDocumentType] = useState<string | null>(null);
   const [isDummyData, setIsDummyData] = useState<boolean>(false);
@@ -28,34 +29,40 @@ export default function App() {
     setImageFile(file);
     setUploadedImage(dataUrl);
     // 새 이미지가 업로드되면 이전 처리 결과 초기화
-    setProcessedData(null);
+    setRefinedData(null);
+    setRawData(null);
     setOriginalText('');
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
+    setActiveTab('refined');
     clearError();
   };
 
   const handleClearImage = () => {
     setUploadedImage(null);
     setImageFile(null);
-    setProcessedData(null);
+    setRefinedData(null);
+    setRawData(null);
     setOriginalText('');
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
+    setActiveTab('refined');
     clearError();
   };
 
   const handleDocumentTypeSelect = (documentType: string) => {
     setSelectedDocumentType(documentType);
     // 문서 종류가 변경되면 이전 OCR 결과 초기화
-    setProcessedData(null);
+    setRefinedData(null);
+    setRawData(null);
     setOriginalText('');
+    setActiveTab('refined');
     clearError();
   };
 
@@ -69,19 +76,22 @@ export default function App() {
     // 모든 상태를 완전히 초기화
     setUploadedImage(null);
     setImageFile(null);
-    setProcessedData(null);
+    setRefinedData(null);
+    setRawData(null);
     setOriginalText('');
     setSelectedDocumentType(null);
     setIsDummyData(false);
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
+    setActiveTab('refined');
     clearError();
 
     // 잠시 후 새로운 더미 데이터로 설정 (애니메이션 효과를 위해)
     setTimeout(() => {
       setSelectedDocumentType(dummyData.documentTypeId);
-      setProcessedData(dummyData.tableData);
+      setRefinedData(dummyData.tableData);
+      setRawData(dummyData.tableData); // 더미 데이터에서는 같은 데이터를 사용
       setOriginalText(dummyData.originalText);
       setIsDummyData(true);
       setDummyDataInfo({
@@ -93,8 +103,9 @@ export default function App() {
     }, 100);
   };
 
-  const handleOCRComplete = (tableData: TableData, text: string) => {
-    setProcessedData(tableData);
+  const handleOCRComplete = (refinedTableData: TableData, rawTableData: TableData, text: string) => {
+    setRefinedData(refinedTableData);
+    setRawData(rawTableData);
     setOriginalText(text);
     setIsDummyData(false);
     setDummyDataInfo(null);
@@ -103,9 +114,6 @@ export default function App() {
     clearError();
   };
 
-  const handleDataChange = (newData: TableData) => {
-    setProcessedData(newData);
-  };
 
   const handleError = (error: string) => {
     setError(error);
@@ -364,7 +372,7 @@ export default function App() {
               </div>
 
               <div className="p-4 lg:p-6">
-                {!processedData ? (
+                {!refinedData && !rawData ? (
                   <div className="flex items-center justify-center min-h-[300px] lg:min-h-[400px]">
                     <div className="text-center space-y-4">
                       <div className="bg-muted backdrop-blur-sm w-16 h-16 lg:w-20 lg:h-20 rounded-2xl flex items-center justify-center mx-auto border border-border">
@@ -378,20 +386,42 @@ export default function App() {
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4 animate-in slide-in-from-right duration-500">
-                    {/* Table Data Section */}
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <h3 className="text-sm text-foreground">구조화된 데이터</h3>
+                  <div className="space-y-6 animate-in slide-in-from-right duration-500">
+                    {/* 정제된 데이터 표 */}
+                    {refinedData && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                          <h3 className="text-sm text-foreground">정제된 데이터</h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                          <GenericTable
+                            data={refinedData}
+                            title="정제된 데이터"
+                            subtitle="라벨별로 그룹핑하고 정렬된 OCR 결과"
+                            onDataChange={(newData) => setRefinedData(newData)}
+                          />
+                        </div>
                       </div>
-                      <div className="overflow-x-auto">
-                        <GenericTable
-                          data={processedData}
-                          onDataChange={handleDataChange}
-                        />
+                    )}
+
+                    {/* 원본 데이터 표 */}
+                    {rawData && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <h3 className="text-sm text-foreground">원본 데이터</h3>
+                        </div>
+                        <div className="overflow-x-auto">
+                          <GenericTable
+                            data={rawData}
+                            title="원본 데이터"
+                            subtitle="OCR에서 직접 추출된 원본 필드 데이터"
+                            onDataChange={(newData) => setRawData(newData)}
+                          />
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Original Text Section */}
                     {originalText && (
@@ -409,20 +439,50 @@ export default function App() {
                     )}
 
                     {/* Export Section */}
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <h3 className="text-sm text-foreground">내보내기</h3>
+                    {(refinedData || rawData) && (
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full"></div>
+                          <h3 className="text-sm text-foreground">내보내기</h3>
+                        </div>
+
+                        {/* 정제된 데이터 내보내기 */}
+                        {refinedData && (
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                              <h4 className="text-xs text-muted-foreground">정제된 데이터</h4>
+                            </div>
+                            <ResultExporter
+                              data={refinedData}
+                              tableType={selectedDocumentType || 'unknown'}
+                              title={`${selectedDocumentType || 'OCR 결과'} (정제됨)`}
+                              originalText={originalText}
+                              documentType={selectedDocumentType}
+                              sourceImageName={imageFile?.name || 'uploaded-image'}
+                            />
+                          </div>
+                        )}
+
+                        {/* 원본 데이터 내보내기 */}
+                        {rawData && (
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                              <h4 className="text-xs text-muted-foreground">원본 데이터</h4>
+                            </div>
+                            <ResultExporter
+                              data={rawData}
+                              tableType={selectedDocumentType || 'unknown'}
+                              title={`${selectedDocumentType || 'OCR 결과'} (원본)`}
+                              originalText={originalText}
+                              documentType={selectedDocumentType}
+                              sourceImageName={imageFile?.name || 'uploaded-image'}
+                            />
+                          </div>
+                        )}
                       </div>
-                      <ResultExporter
-                        data={processedData}
-                        tableType={selectedDocumentType || 'unknown'}
-                        title={selectedDocumentType || 'OCR 결과'}
-                        originalText={originalText}
-                        documentType={selectedDocumentType}
-                        sourceImageName={imageFile?.name || 'uploaded-image'}
-                      />
-                    </div>
+                    )}
                   </div>
                 )}
               </div>

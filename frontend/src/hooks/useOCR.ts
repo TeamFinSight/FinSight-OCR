@@ -22,6 +22,10 @@ interface UseOCRResult {
   
   // 편의 getter
   extractedText: string;
+  refinedTableData: TableData | null;
+  rawTableData: TableData | null;
+
+  // 하위 호환성 (기존 코드용)
   tableData: TableData | null;
 }
 
@@ -86,7 +90,9 @@ export const useOCR = (): UseOCRResult => {
 
   // 편의 getter
   const extractedText = result?.extracted_text || '';
-  const tableData = result?.table_data || null;
+  const refinedTableData = result?.refined_table_data || null;
+  const rawTableData = result?.raw_table_data || null;
+  const tableData = refinedTableData; // 하위 호환성을 위해 정제된 데이터를 기본으로 사용
 
   return {
     isProcessing,
@@ -97,6 +103,8 @@ export const useOCR = (): UseOCRResult => {
     processOCR,
     reset,
     extractedText,
+    refinedTableData,
+    rawTableData,
     tableData,
   };
 };

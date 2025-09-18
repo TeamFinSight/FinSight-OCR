@@ -60,7 +60,12 @@ class BoxLabel():
 
 
     def euclidean_distance(self, p1, p2, r_width, r_height):
-        return math.sqrt((p1[0]/4 - (p2[0]/4)*r_width)**2 + (p1[1] - (p2[1])*r_height)**2)
+        # 정확한 유클리드 거리 계산: 스케일링된 좌표를 이용
+        x1_scaled = p1[0] * r_width
+        y1_scaled = p1[1] * r_height
+        x2 = p2[0]
+        y2 = p2[1]
+        return math.sqrt((x1_scaled - x2)**2 + (y1_scaled - y2)**2)
 
     # 결과 저장
 
@@ -97,28 +102,36 @@ class BoxLabel():
 
 
     def formlabeling(self, data):
-        box_width, box_height = 2480, 3508
-            
+        # 기준 해상도 (라벨링 좌표가 정의된 해상도)
+        reference_width, reference_height = 2480, 3508
+
         # ((x1 + x2) / 2, (y1 + y2) / 2)
         bboxes = self.boxLists(data)
-        b_box_width = data["document_info"]["width"]
-        b_box_height = data["document_info"]["height"]
-        r_width = b_box_width/box_width
-        r_height = b_box_height/box_height
-        print("===============",r_width, r_height)
+        current_width = data["document_info"]["width"]
+        current_height = data["document_info"]["height"]
+
+        # 스케일링 비율: 현재 이미지 / 기준 이미지
+        r_width = reference_width / current_width
+        r_height = reference_height / current_height
+        print("스케일링 비율 (기준/현재):", r_width, r_height)
+        print("현재 이미지 크기:", current_width, "x", current_height)
+        print("기준 이미지 크기:", reference_width, "x", reference_height)
 
         closest_b_for_a = []
         index = 0
 
         for a in bboxes:
             closest_b = min(self.bin_box, key=lambda b: self.euclidean_distance(a, b, r_width, r_height))
-            a_box_label = [a[0],a[1],closest_b[2]]
+            min_distance = self.euclidean_distance(a, closest_b, r_width, r_height)
+
+            a_box_label = [a[0], a[1], closest_b[2]]
             data["fields"][index]["labels"] = closest_b[2]
-            
-            # print(data['fields'][index]['value_text'])
-            # a[2] = closest_b[2]
+
+            # 디버깅 정보 출력
+            print(f"Box {index}: 위치({a[0]}, {a[1]}) -> 라벨: {closest_b[2]}, 거리: {min_distance:.1f}, 텍스트: '{data['fields'][index]['value_text']}'")
+
             closest_b_for_a.append(a_box_label)
-            index+= 1
+            index += 1
         # for a in closest_b_for_a:
         #     print(f"B 중심 {a}")
 
