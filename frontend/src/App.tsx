@@ -37,7 +37,6 @@ export default function App() {
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
-    setActiveTab('refined');
     clearError();
   };
 
@@ -52,7 +51,6 @@ export default function App() {
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
-    setActiveTab('refined');
     clearError();
   };
 
@@ -62,7 +60,6 @@ export default function App() {
     setRefinedData(null);
     setRawData(null);
     setOriginalText('');
-    setActiveTab('refined');
     clearError();
   };
 
@@ -84,7 +81,6 @@ export default function App() {
     setDummyDataInfo(null);
     setShowExampleOCR(false);
     setCurrentDummyId(null);
-    setActiveTab('refined');
     clearError();
 
     // 잠시 후 새로운 더미 데이터로 설정 (애니메이션 효과를 위해)

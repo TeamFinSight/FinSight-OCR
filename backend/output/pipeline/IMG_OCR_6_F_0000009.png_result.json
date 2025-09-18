@@ -1,7 +1,7 @@
 {
   "metadata": {
     "source_image": "IMG_OCR_6_F_0000009.png",
-    "processed_at": "2025-09-17T16:23:19.269362",
+    "processed_at": "2025-09-18T13:25:41.549491",
     "total_detections": 22,
     "model_info": {
       "detection_model": "DBNet (ResNet18)",
