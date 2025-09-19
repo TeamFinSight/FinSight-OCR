@@ -1,11 +1,19 @@
 # =========================
-# 공통
+# Common (OS, archives)
 # =========================
-# OS
+# OS clutter
 .DS_Store
 Thumbs.db
 
-# 에디터/IDE
+# Archives and large outputs (recommended to exclude)
+*.7z
+*.tar
+*.tar.gz
+*.zip
+
+# =========================
+# Editors / IDEs
+# =========================
 .vscode/*
 !.vscode/settings.json
 !.vscode/extensions.json
@@ -15,14 +23,18 @@ Thumbs.db
 .history/
 *.code-workspace
 
-# 환경 변수
+# =========================
+# Environment variables
+# =========================
 .env
 .env.*
 !.env.example
 !.env.sample
 !.env.template
 
-# 로그
+# =========================
+# Logs
+# =========================
 logs/
 *.log
 npm-debug.log*
@@ -30,36 +42,25 @@ yarn-debug.log*
 pnpm-debug.log*
 uvicorn*.log
 
-# 캐시
+# =========================
+# Caches / Temp
+# =========================
 .cache/
 .tmp/
 *.tsbuildinfo
 .eslintcache
 .stylelintcache
-
-# 아카이브(대용량 산출물은 저장소 제외 권장)
-*.zip
-*.tar
-*.tar.gz
-*.7z
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.pyre/
+.ruff_cache/
+.tox/
+.nox/
 
 # =========================
-# 프런트엔드: React 18 + TS + Vite
+# Package managers
 # =========================
-node_modules/
-dist/
-build/
-.vite/
-.storybook-out/
-storybook-static/
-coverage/
-.cypress/
-cypress/videos/
-cypress/screenshots/
-playwright-report/
-test-results/
-
-# 패키지 매니저 스토어
 .pnpm-store/
 .npm/
 .yarn/*
@@ -70,9 +71,25 @@ test-results/
 !.yarn/versions
 
 # =========================
-# 백엔드: FastAPI + Python
+# Frontend (React 18 + TypeScript + Vite)
 # =========================
-# 바이트코드 / 빌드
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+.storybook-out/
+storybook-static/
+.cypress/
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+
+# =========================
+# Backend (FastAPI + Python)
+# =========================
+# Bytecode / build artifacts
 __pycache__/
 *.py[cod]
 *$py.class
@@ -84,58 +101,54 @@ wheels/
 *.egg
 MANIFEST
 
-# 가상환경
+# Virtual environments
 .venv/
 venv/
 env/
 ENV/
-env.bak/
 venv.bak/
+env.bak/
 .python-version
 
-# 패키지/툴 캐시
-.pytest_cache/
-.mypy_cache/
-.pytype/
-.pyre/
-.ruff_cache/
-.tox/
-.nox/
+# Pip misc
 pip-log.txt
 pip-delete-this-directory.txt
 
-# 커버리지
+# =========================
+# Coverage reports
+# =========================
 htmlcov/
 .coverage
 .coverage.*
 coverage.xml
 *.cover
 *.py,cover
-.coverage.*
 
-# 주피터
+# =========================
+# Jupyter
+# =========================
 .ipynb_checkpoints/
 profile_default/
 ipython_config.py
 
 # =========================
-# AI/ML 산출물: PyTorch, OpenCV, timm, etc.
+# AI/ML artifacts (PyTorch, OpenCV, timm, etc.)
 # =========================
-# 모델/체크포인트/추론결과
-*.pth
-*.pt
+# Models / checkpoints / exported graphs / inference outputs
 *.ckpt
-*.onnx
-*.tflite
-*.pb
 *.h5
 *.joblib
-*.pkl
-*.sav
 *.npz
 *.npy
+*.onnx
+*.pb
+*.pkl
+*.pth
+*.pt
+*.sav
+*.tflite
 
-# 학습/로그
+# Training runs / experiment logs
 runs/
 wandb/
 lightning_logs/
@@ -143,7 +156,9 @@ tensorboard/
 tb_logs/
 mlruns/
 
-# 데이터 디렉터리(필요하면 예시 파일만 남기고 .gitkeep 사용)
+# =========================
+# Data directories (use .gitkeep to keep empty dirs)
+# =========================
 data/
 datasets/
 inputs/
@@ -158,13 +173,20 @@ models/
 !models/.gitkeep
 
 # =========================
-# 컨테이너/배포(사용 시)
+# Containers / Deployment
 # =========================
-# Docker(선택)
+# Docker (optional)
 docker-data/
 .docker/
 
+# Pipeline outputs
+backend/output/pipeline/
+
+# VScode setting files
 .vscode/
 
-backend/output/
+# =========================
+# Project-specific
+# =========================
+# Claude configuration
 CLAUDE.md
