@@ -11,8 +11,12 @@ import modelrun.scripts.tba.run_ocr as ocr
 
 app = FastAPI()
 
-# CORS 설정: 기존 포트(3000, 5173) 모두 허용
+# CORS 설정: 개발 및 프로덕션 환경 모두 허용
 origins = [
+    "http://localhost",
+    "http://localhost:80",
+    "http://127.0.0.1",
+    "http://127.0.0.1:80",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost:5173",

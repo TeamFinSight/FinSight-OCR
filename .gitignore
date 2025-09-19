@@ -164,5 +164,7 @@ models/
 docker-data/
 .docker/
 
+.vscode/
 
+backend/output/
 CLAUDE.md

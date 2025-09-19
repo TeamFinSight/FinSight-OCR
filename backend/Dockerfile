@@ -11,20 +11,27 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Install system dependencies for OpenCV, PyTorch, and other libraries
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
-    libxrender-dev \
+    libxrender1 \
     libgomp1 \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
-    libgtk-3-dev \
+    libgl1-mesa-dri \
+    libgtk-3-0 \
+    libgthread-2.0-0 \
+    libgdk-pixbuf-2.0-0 \
+    libfontconfig1 \
+    libxss1 \
     wget \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    ca-certificates \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/*
 
 # Stage 2: Dependencies installation
 FROM base as dependencies
